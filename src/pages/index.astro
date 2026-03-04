@@ -1,0 +1,29 @@
+---
+import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
+---
+
+<Page title="Home" description={siteConfig.description}>
+  <div class="py-16 text-center">
+    <h1 class="heading-1 sm:text-5xl">
+      {siteConfig.name}
+    </h1>
+    <p class="text-lead mt-4 max-w-xl mx-auto">
+      {siteConfig.description}
+    </p>
+    <div class="mt-8 flex justify-center gap-4">
+      <a
+        href="/coloring-pages"
+        class="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+      >
+        Browse Coloring Pages
+      </a>
+      <a
+        href="/blog"
+        class="rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:bg-accent transition-colors"
+      >
+        Read the Blog
+      </a>
+    </div>
+  </div>
+</Page>

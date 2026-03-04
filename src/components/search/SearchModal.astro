@@ -1,0 +1,174 @@
+---
+// Search modal — Fuse.js loaded lazily when modal opens
+---
+
+<div id="search-container">
+  <button
+    id="search-trigger"
+    aria-label="Search coloring pages"
+    class="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </svg>
+    <span>Search</span>
+    <kbd class="hidden rounded border border-border px-1 text-xs sm:inline">⌘K</kbd>
+  </button>
+
+  <dialog
+    id="search-modal"
+    class="fixed inset-0 z-50 m-0 h-dvh w-full max-w-full bg-transparent p-4 backdrop:bg-black/50"
+  >
+    <div class="mx-auto mt-16 max-w-xl rounded-lg border border-border bg-background shadow-xl">
+      <div class="flex items-center gap-3 border-b border-border px-4 py-3">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="text-muted-foreground"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search coloring pages..."
+          autocomplete="off"
+          class="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+        />
+        <button
+          id="search-close"
+          aria-label="Close search"
+          class="text-muted-foreground hover:text-foreground"
+        >
+          <kbd class="rounded border border-border px-1 text-xs">Esc</kbd>
+        </button>
+      </div>
+      <ul
+        id="search-results"
+        class="max-h-72 overflow-y-auto p-2 empty:hidden"
+        role="listbox"
+        aria-label="Search results"
+      >
+      </ul>
+      <p
+        id="search-empty"
+        class="hidden px-4 py-6 text-center text-sm text-muted-foreground"
+      >
+        No results found.
+      </p>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  const trigger = document.getElementById("search-trigger")!;
+  const modal = document.getElementById("search-modal") as HTMLDialogElement;
+  const input = document.getElementById("search-input") as HTMLInputElement;
+  const resultsList = document.getElementById("search-results")!;
+  const emptyMsg = document.getElementById("search-empty")!;
+  const closeBtn = document.getElementById("search-close")!;
+
+  let fuse: any = null;
+  let fuseLoaded = false;
+
+  async function loadFuse() {
+    if (fuseLoaded) return;
+    fuseLoaded = true;
+
+    const [{ default: Fuse }, res] = await Promise.all([
+      import("fuse.js"),
+      fetch("/search.json"),
+    ]);
+    const data = await res.json();
+
+    fuse = new Fuse(data, {
+      keys: ["title", "description", "category", "tags"],
+      threshold: 0.3,
+      includeScore: true,
+    });
+  }
+
+  function openModal() {
+    modal.showModal();
+    input.focus();
+    loadFuse();
+  }
+
+  function closeModal() {
+    modal.close();
+    input.value = "";
+    resultsList.innerHTML = "";
+    emptyMsg.classList.add("hidden");
+  }
+
+  trigger.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      modal.open ? closeModal() : openModal();
+    }
+    if (e.key === "Escape" && modal.open) closeModal();
+  });
+
+  input.addEventListener("input", () => {
+    const query = input.value.trim();
+
+    if (!query || !fuse) {
+      resultsList.innerHTML = "";
+      emptyMsg.classList.add("hidden");
+      return;
+    }
+
+    const results = fuse.search(query).slice(0, 8);
+
+    if (results.length === 0) {
+      resultsList.innerHTML = "";
+      emptyMsg.classList.remove("hidden");
+      return;
+    }
+
+    emptyMsg.classList.add("hidden");
+    resultsList.innerHTML = results
+      .map(
+        ({ item }: { item: any }) => `
+        <li role="option">
+          <a
+            href="${item.url}"
+            class="flex flex-col gap-0.5 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground"
+          >
+            <span class="text-sm font-medium text-foreground">${item.title}</span>
+            <span class="text-xs text-muted-foreground line-clamp-1">${item.description}</span>
+          </a>
+        </li>
+      `
+      )
+      .join("");
+  });
+</script>

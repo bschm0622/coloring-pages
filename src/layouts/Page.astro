@@ -1,0 +1,68 @@
+---
+import Container from "@/components/ui/Container.astro";
+import SearchModal from "@/components/search/SearchModal.astro";
+import Base from "./Base.astro";
+import { siteConfig } from "@/config/site";
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, ogImage, noindex } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<Base
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  noindex={noindex}
+>
+  <header class="border-b border-border">
+    <Container class="flex items-center justify-between py-3">
+      <a href="/" class="font-semibold text-foreground hover:text-primary">
+        {siteConfig.name}
+      </a>
+      <div class="flex items-center gap-6">
+        <ul class="flex items-center gap-4">
+          {
+            siteConfig.nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    "text-sm transition-colors hover:text-primary",
+                    currentPath === item.href
+                      ? "text-foreground font-medium"
+                      : "text-muted-foreground",
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <SearchModal />
+      </div>
+    </Container>
+  </header>
+
+  <main class="py-(--page-padding-y)">
+    <Container>
+      <slot />
+    </Container>
+  </main>
+
+  <footer class="border-t border-border mt-(--section-gap)">
+    <Container class="py-8 text-center text-sm text-muted-foreground">
+      <p>
+        &copy; {new Date().getFullYear()}
+        {siteConfig.name}. All rights reserved.
+      </p>
+    </Container>
+  </footer>
+</Base>
