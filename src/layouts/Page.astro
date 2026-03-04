@@ -1,8 +1,12 @@
 ---
+import { getCollection } from "astro:content";
 import Container from "@/components/ui/Container.astro";
 import SearchModal from "@/components/search/SearchModal.astro";
 import Base from "./Base.astro";
 import { siteConfig } from "@/config/site";
+
+const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+const categories = [...new Set(allPages.map((p) => p.data.category))].sort();
 
 interface Props {
   title: string;
@@ -58,11 +62,60 @@ const currentPath = Astro.url.pathname;
   </main>
 
   <footer class="border-t border-border mt-(--section-gap)">
-    <Container class="py-8 text-center text-sm text-muted-foreground">
-      <p>
-        &copy; {new Date().getFullYear()}
-        {siteConfig.name}. All rights reserved.
-      </p>
+    <Container class="py-10">
+      <div class="grid gap-8 sm:grid-cols-3">
+        <!-- Brand -->
+        <div>
+          <a href="/" class="font-semibold text-foreground hover:text-primary">
+            {siteConfig.name}
+          </a>
+          <p class="mt-2 text-sm text-muted-foreground">
+            Free printable coloring pages for kids and adults.
+          </p>
+        </div>
+
+        <!-- Categories -->
+        <div>
+          <p class="text-sm font-medium text-foreground mb-3">Browse by Category</p>
+          <ul class="space-y-2">
+            {
+              categories.map((cat) => (
+                <li>
+                  <a
+                    href={`/coloring-pages/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+                    class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {cat}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Links -->
+        <div>
+          <p class="text-sm font-medium text-foreground mb-3">More</p>
+          <ul class="space-y-2">
+            {
+              siteConfig.nav.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-8 border-t border-border pt-6 text-center text-sm text-muted-foreground">
+        &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+      </div>
     </Container>
   </footer>
 </Base>

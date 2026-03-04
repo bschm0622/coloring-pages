@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import Card from "@/components/starwind/card/Card.astro";
+import CardHeader from "@/components/starwind/card/CardHeader.astro";
+import CardTitle from "@/components/starwind/card/CardTitle.astro";
+import CardDescription from "@/components/starwind/card/CardDescription.astro";
+import CardContent from "@/components/starwind/card/CardContent.astro";
+import Badge from "@/components/starwind/badge/Badge.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Page title="Blog" description="Tips, guides, and ideas for coloring pages — from choosing the right crayons to printing at home.">
+  <div class="mb-8">
+    <h1 class="heading-2">Blog</h1>
+    <p class="text-lead mt-2">Tips and guides for getting the most out of coloring pages.</p>
+  </div>
+
+  <ul class="space-y-4">
+    {
+      posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.slug}`} class="group block">
+            <Card class="transition-shadow group-hover:shadow-md">
+              <CardHeader>
+                <p class="text-caption">
+                  {post.data.pubDate.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+                <CardTitle class="group-hover:text-primary transition-colors">
+                  {post.data.title}
+                </CardTitle>
+                <CardDescription>{post.data.description}</CardDescription>
+              </CardHeader>
+              {post.data.tags.length > 0 && (
+                <CardContent class="flex flex-wrap gap-1.5">
+                  {post.data.tags.map((tag) => (
+                    <Badge variant="secondary" size="sm">
+                      {tag}
+                    </Badge>
+                  ))}
+                </CardContent>
+              )}
+            </Card>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Page>

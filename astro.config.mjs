@@ -7,6 +7,9 @@ import robotsTxt from "astro-robots-txt";
 // https://astro.build/config
 export default defineConfig({
   site: "https://findcoloringpages.com",
+  redirects: {
+    "/coloring-pages": "/",
+  },
   integrations: [sitemap(), robotsTxt()],
   vite: {
     plugins: [tailwindcss()],

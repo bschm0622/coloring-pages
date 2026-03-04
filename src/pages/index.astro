@@ -1,29 +1,82 @@
 ---
+import { getCollection } from "astro:content";
 import Page from "@/layouts/Page.astro";
 import { siteConfig } from "@/config/site";
+import Card from "@/components/starwind/card/Card.astro";
+import CardContent from "@/components/starwind/card/CardContent.astro";
+import Badge from "@/components/starwind/badge/Badge.astro";
+
+const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+
+const sorted = allPages.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const categories = [...new Set(sorted.map((p) => p.data.category))].sort();
+
+const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
+  easy: "success",
+  medium: "warning",
+  hard: "error",
+};
 ---
 
-<Page title="Home" description={siteConfig.description}>
-  <div class="py-16 text-center">
-    <h1 class="heading-1 sm:text-5xl">
-      {siteConfig.name}
-    </h1>
-    <p class="text-lead mt-4 max-w-xl mx-auto">
-      {siteConfig.description}
+<Page title="Free Coloring Pages" description={siteConfig.description}>
+  <div class="mb-8">
+    <h1 class="heading-2">Free Coloring Pages</h1>
+    <p class="text-lead mt-2">
+      {sorted.length} free printable coloring pages. Click any image to download.
     </p>
-    <div class="mt-8 flex justify-center gap-4">
-      <a
-        href="/coloring-pages"
-        class="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-      >
-        Browse Coloring Pages
-      </a>
-      <a
-        href="/blog"
-        class="rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:bg-accent transition-colors"
-      >
-        Read the Blog
-      </a>
-    </div>
   </div>
+
+  <!-- Category links -->
+  <nav class="mb-8 flex flex-wrap gap-2" aria-label="Browse by category">
+    {
+      categories.map((cat) => (
+        <Badge
+          href={`/coloring-pages/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+          variant="outline"
+          size="sm"
+        >
+          {cat}
+        </Badge>
+      ))
+    }
+  </nav>
+
+  <!-- Grid -->
+  <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
+    {
+      sorted.map((page) => (
+        <li>
+          <a href={`/coloring-pages/${page.slug}`} class="group block">
+            <Card class="overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+              <img
+                src={page.data.imageUrl}
+                alt={page.data.title}
+                class="h-48 w-full object-contain bg-muted p-3 transition-transform group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <CardContent class="flex flex-col gap-2">
+                <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
+                  {page.data.title}
+                </p>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-caption">{page.data.category}</span>
+                  <Badge
+                    variant={difficultyVariant[page.data.difficulty]}
+                    size="sm"
+                    class="capitalize"
+                  >
+                    {page.data.difficulty}
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 </Page>

@@ -2,9 +2,9 @@
 // Search modal — Fuse.js loaded lazily when modal opens
 ---
 
-<div id="search-container">
+<div data-search-root>
   <button
-    id="search-trigger"
+    data-search-trigger
     aria-label="Search coloring pages"
     class="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
   >
@@ -27,9 +27,13 @@
     <kbd class="hidden rounded border border-border px-1 text-xs sm:inline">⌘K</kbd>
   </button>
 
-  <dialog
-    id="search-modal"
-    class="fixed inset-0 z-50 m-0 h-dvh w-full max-w-full bg-transparent p-4 backdrop:bg-black/50"
+  <!-- Overlay -->
+  <div
+    data-search-overlay
+    class="fixed inset-0 z-50 hidden bg-black/50 p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Search"
   >
     <div class="mx-auto mt-16 max-w-xl rounded-lg border border-border bg-background shadow-xl">
       <div class="flex items-center gap-3 border-b border-border px-4 py-3">
@@ -43,21 +47,21 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="text-muted-foreground"
+          class="shrink-0 text-muted-foreground"
           aria-hidden="true"
         >
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.3-4.3"></path>
         </svg>
         <input
-          id="search-input"
+          data-search-input
           type="search"
           placeholder="Search coloring pages..."
           autocomplete="off"
           class="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
         />
         <button
-          id="search-close"
+          data-search-close
           aria-label="Close search"
           class="text-muted-foreground hover:text-foreground"
         >
@@ -65,58 +69,61 @@
         </button>
       </div>
       <ul
-        id="search-results"
+        data-search-results
         class="max-h-72 overflow-y-auto p-2 empty:hidden"
         role="listbox"
         aria-label="Search results"
       >
       </ul>
       <p
-        id="search-empty"
+        data-search-empty
         class="hidden px-4 py-6 text-center text-sm text-muted-foreground"
       >
         No results found.
       </p>
     </div>
-  </dialog>
+  </div>
 </div>
 
 <script>
-  const trigger = document.getElementById("search-trigger")!;
-  const modal = document.getElementById("search-modal") as HTMLDialogElement;
-  const input = document.getElementById("search-input") as HTMLInputElement;
-  const resultsList = document.getElementById("search-results")!;
-  const emptyMsg = document.getElementById("search-empty")!;
-  const closeBtn = document.getElementById("search-close")!;
+  const root = document.querySelector("[data-search-root]")!;
+  const trigger = root.querySelector("[data-search-trigger]")!;
+  const overlay = root.querySelector("[data-search-overlay]") as HTMLElement;
+  const input = root.querySelector("[data-search-input]") as HTMLInputElement;
+  const resultsList = root.querySelector("[data-search-results]")!;
+  const emptyMsg = root.querySelector("[data-search-empty]")!;
+  const closeBtn = root.querySelector("[data-search-close]")!;
 
   let fuse: any = null;
-  let fuseLoaded = false;
 
   async function loadFuse() {
-    if (fuseLoaded) return;
-    fuseLoaded = true;
-
-    const [{ default: Fuse }, res] = await Promise.all([
-      import("fuse.js"),
-      fetch("/search.json"),
-    ]);
-    const data = await res.json();
-
-    fuse = new Fuse(data, {
-      keys: ["title", "description", "category", "tags"],
-      threshold: 0.3,
-      includeScore: true,
-    });
+    if (fuse) return;
+    try {
+      const [{ default: Fuse }, res] = await Promise.all([
+        import("fuse.js"),
+        fetch("/search.json"),
+      ]);
+      const data = await res.json();
+      fuse = new Fuse(data, {
+        keys: ["title", "category", "tags", "description"],
+        threshold: 0.2,
+        ignoreLocation: true,
+      });
+      // Re-run search if user already typed
+      if (input.value.trim()) input.dispatchEvent(new Event("input"));
+    } catch (e) {
+      console.error("Search failed to load:", e);
+    }
   }
 
   function openModal() {
-    modal.showModal();
+    overlay.classList.remove("hidden");
     input.focus();
     loadFuse();
   }
 
   function closeModal() {
-    modal.close();
+    overlay.classList.add("hidden");
     input.value = "";
     resultsList.innerHTML = "";
     emptyMsg.classList.add("hidden");
@@ -125,16 +132,16 @@
   trigger.addEventListener("click", openModal);
   closeBtn.addEventListener("click", closeModal);
 
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
   });
 
   document.addEventListener("keydown", (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "k") {
       e.preventDefault();
-      modal.open ? closeModal() : openModal();
+      overlay.classList.contains("hidden") ? openModal() : closeModal();
     }
-    if (e.key === "Escape" && modal.open) closeModal();
+    if (e.key === "Escape" && !overlay.classList.contains("hidden")) closeModal();
   });
 
   input.addEventListener("input", () => {
