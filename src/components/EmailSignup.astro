@@ -1,0 +1,75 @@
+---
+// Inline email signup form — used in footer and homepage CTA
+// Replace YOUR_FORM_ID with your Formspree form ID
+const FORMSPREE_ID = "YOUR_FORM_ID";
+
+interface Props {
+  heading?: string;
+  subheading?: string;
+  compact?: boolean;
+}
+
+const {
+  heading = "Get new coloring pages in your inbox",
+  subheading = "We add new pages regularly. No spam, just new coloring sheets.",
+  compact = false,
+} = Astro.props;
+---
+
+<div data-signup-root>
+  <div data-signup-form class:list={[compact ? "" : "sm:flex sm:items-center sm:gap-6"]}>
+    <div class:list={[compact ? "mb-2" : "mb-3 sm:mb-0 sm:shrink-0"]}>
+      <p class:list={[compact ? "text-sm font-medium text-foreground" : "font-semibold text-foreground mb-0.5"]}>
+        {heading}
+      </p>
+      {!compact && <p class="text-sm text-muted-foreground">{subheading}</p>}
+    </div>
+    <form
+      action={`https://formspree.io/f/${FORMSPREE_ID}`}
+      method="POST"
+      class="flex gap-2 sm:flex-1"
+    >
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder="your@email.com"
+        class="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary min-w-0"
+      />
+      <button
+        type="submit"
+        class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors whitespace-nowrap"
+      >
+        Subscribe
+      </button>
+    </form>
+  </div>
+  <p data-signup-success class="hidden text-sm text-foreground font-medium">
+    You're in! We'll let you know when new pages are added.
+  </p>
+</div>
+
+<script>
+  document.querySelectorAll("[data-signup-root]").forEach((root) => {
+    const form = root.querySelector("form") as HTMLFormElement;
+    const formEl = root.querySelector("[data-signup-form]") as HTMLElement;
+    const success = root.querySelector("[data-signup-success]") as HTMLElement;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+        if (res.ok) {
+          formEl.classList.add("hidden");
+          success.classList.remove("hidden");
+        }
+      } catch {
+        // silently fail
+      }
+    });
+  });
+</script>

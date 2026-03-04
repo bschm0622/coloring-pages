@@ -11,6 +11,8 @@ import Button from "@/components/starwind/button/Button.astro";
 import Badge from "@/components/starwind/badge/Badge.astro";
 import Card from "@/components/starwind/card/Card.astro";
 import CardContent from "@/components/starwind/card/CardContent.astro";
+import EmailPopup from "@/components/EmailPopup.astro";
+import Prose from "@/components/starwind/prose/Prose.astro";
 
 export async function getStaticPaths() {
   const pages = await getCollection("coloringPages", ({ data }) => !data.draft);
@@ -90,9 +92,9 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
       </div>
 
       <!-- Body text -->
-      <div class="prose prose-neutral dark:prose-invert mt-8 max-w-none">
+      <Prose class="mt-8 max-w-none">
         <Content />
-      </div>
+      </Prose>
     </div>
 
     <!-- Sidebar -->
@@ -179,4 +181,6 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
       </section>
     )
   }
+
+  <EmailPopup />
 </Page>

@@ -1,0 +1,109 @@
+---
+// Replace YOUR_FORM_ID with your Formspree form ID
+const FORMSPREE_ID = "YOUR_FORM_ID";
+---
+
+<div id="email-popup" class="fixed inset-0 z-50 hidden items-end justify-center p-4 sm:items-center">
+  <!-- Backdrop -->
+  <div id="email-popup-backdrop" class="absolute inset-0 bg-black/50"></div>
+
+  <!-- Modal -->
+  <div class="relative w-full max-w-sm rounded-xl border border-border bg-background p-6 shadow-xl">
+    <button
+      id="email-popup-close"
+      aria-label="Close"
+      class="absolute right-4 top-4 text-muted-foreground hover:text-foreground transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+
+    <div id="email-popup-form-view">
+      <p class="text-lg font-semibold text-foreground mb-1">Get new pages in your inbox</p>
+      <p class="text-sm text-muted-foreground mb-4">We add new coloring pages regularly. Drop your email and we'll let you know.</p>
+
+      <form
+        id="email-popup-form"
+        action={`https://formspree.io/f/${FORMSPREE_ID}`}
+        method="POST"
+        class="flex gap-2"
+      >
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="you@example.com"
+          class="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary"
+        />
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+        >
+          Subscribe
+        </button>
+      </form>
+
+      <button
+        id="email-popup-skip"
+        class="mt-3 w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors"
+      >
+        No thanks
+      </button>
+    </div>
+
+    <div id="email-popup-success" class="hidden text-center py-2">
+      <p class="text-lg font-semibold text-foreground mb-1">You're in!</p>
+      <p class="text-sm text-muted-foreground">We'll email you when new coloring pages are added.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = "email-popup-dismissed";
+  const DELAY_MS = 4000;
+
+  const popup = document.getElementById("email-popup")!;
+  const backdrop = document.getElementById("email-popup-backdrop")!;
+  const closeBtn = document.getElementById("email-popup-close")!;
+  const skipBtn = document.getElementById("email-popup-skip")!;
+  const form = document.getElementById("email-popup-form") as HTMLFormElement;
+  const formView = document.getElementById("email-popup-form-view")!;
+  const successView = document.getElementById("email-popup-success")!;
+
+  function dismiss() {
+    popup.classList.add("hidden");
+    popup.classList.remove("flex");
+    localStorage.setItem(STORAGE_KEY, "1");
+  }
+
+  function show() {
+    if (localStorage.getItem(STORAGE_KEY)) return;
+    popup.classList.remove("hidden");
+    popup.classList.add("flex");
+  }
+
+  closeBtn.addEventListener("click", dismiss);
+  skipBtn.addEventListener("click", dismiss);
+  backdrop.addEventListener("click", dismiss);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        formView.classList.add("hidden");
+        successView.classList.remove("hidden");
+        localStorage.setItem(STORAGE_KEY, "1");
+        setTimeout(dismiss, 2500);
+      }
+    } catch {
+      // silently fail — don't block the user
+    }
+  });
+
+  setTimeout(show, DELAY_MS);
+</script>

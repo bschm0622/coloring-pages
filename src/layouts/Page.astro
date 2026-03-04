@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Container from "@/components/ui/Container.astro";
 import SearchModal from "@/components/search/SearchModal.astro";
+import EmailSignup from "@/components/EmailSignup.astro";
 import Base from "./Base.astro";
 import { siteConfig } from "@/config/site";
 
@@ -63,15 +64,16 @@ const currentPath = Astro.url.pathname;
 
   <footer class="border-t border-border mt-(--section-gap)">
     <Container class="py-10">
-      <div class="grid gap-8 sm:grid-cols-3">
-        <!-- Brand -->
+      <div class="grid gap-8 sm:grid-cols-[2fr_1fr_1fr]">
+        <!-- Brand + signup -->
         <div>
           <a href="/" class="font-semibold text-foreground hover:text-primary">
             {siteConfig.name}
           </a>
-          <p class="mt-2 text-sm text-muted-foreground">
+          <p class="mt-2 mb-4 text-sm text-muted-foreground">
             Free printable coloring pages for kids and adults.
           </p>
+          <EmailSignup compact />
         </div>
 
         <!-- Categories -->
@@ -109,6 +111,11 @@ const currentPath = Astro.url.pathname;
                 </li>
               ))
             }
+            <li>
+              <a href="/sitemap-index.xml" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Sitemap
+              </a>
+            </li>
           </ul>
         </div>
       </div>

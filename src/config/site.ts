@@ -10,6 +10,7 @@ export const siteConfig = {
   },
   nav: [
     { label: "Blog", href: "/blog" },
+    { label: "About", href: "/about" },
   ],
   social: {
     twitter: "",

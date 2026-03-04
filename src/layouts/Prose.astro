@@ -1,5 +1,6 @@
 ---
 import Container from "@/components/ui/Container.astro";
+import StarwindProse from "@/components/starwind/prose/Prose.astro";
 import Page from "./Page.astro";
 
 interface Props {
@@ -65,8 +66,8 @@ const readingTime = null; // populated via remark plugin if added later
       </div>
     </header>
 
-    <div class="prose prose-neutral dark:prose-invert max-w-none">
+    <StarwindProse class="max-w-none">
       <slot />
-    </div>
+    </StarwindProse>
   </Container>
 </Page>

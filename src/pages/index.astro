@@ -4,9 +4,19 @@ import Page from "@/layouts/Page.astro";
 import { siteConfig } from "@/config/site";
 import Card from "@/components/starwind/card/Card.astro";
 import CardContent from "@/components/starwind/card/CardContent.astro";
+import CardHeader from "@/components/starwind/card/CardHeader.astro";
+import CardTitle from "@/components/starwind/card/CardTitle.astro";
+import CardDescription from "@/components/starwind/card/CardDescription.astro";
 import Badge from "@/components/starwind/badge/Badge.astro";
+import EmailSignup from "@/components/EmailSignup.astro";
+import PrinterIcon from "@tabler/icons/outline/printer.svg";
+import MoodKidIcon from "@tabler/icons/outline/mood-kid.svg";
+import GiftIcon from "@tabler/icons/outline/gift.svg";
 
 const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+const blogPosts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
 
 const sorted = allPages.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -21,28 +31,59 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
 };
 ---
 
-<Page title="Free Coloring Pages" description={siteConfig.description}>
-  <div class="mb-8">
-    <h1 class="heading-2">Free Coloring Pages</h1>
-    <p class="text-lead mt-2">
-      {sorted.length} free printable coloring pages. Click any image to download.
+<Page title="Free Coloring Pages to Print" description={siteConfig.description}>
+
+  <!-- Hero -->
+  <section class="mb-12 text-center">
+    <h1 class="heading-1 mb-4">Free Coloring Pages to Print</h1>
+    <p class="text-lead mx-auto max-w-xl">
+      Simple, clean coloring pages for kids — no clutter, no sign-up required.
+      Download and print any page for free.
     </p>
-  </div>
+  </section>
+
+  <!-- Why us -->
+  <section class="mb-12 grid gap-4 sm:grid-cols-3">
+    <div class="rounded-lg border border-border bg-muted/40 p-5">
+      <p class="flex items-center gap-2 font-medium text-foreground mb-1">
+        <PrinterIcon class="size-4 text-primary shrink-0" aria-hidden="true" />
+        Actually printable
+      </p>
+      <p class="text-sm text-muted-foreground">Big, clear outlines that look good on paper — not just on screen. No tiny details that bleed together when printed.</p>
+    </div>
+    <div class="rounded-lg border border-border bg-muted/40 p-5">
+      <p class="flex items-center gap-2 font-medium text-foreground mb-1">
+        <MoodKidIcon class="size-4 text-primary shrink-0" aria-hidden="true" />
+        Sized right for kids
+      </p>
+      <p class="text-sm text-muted-foreground">Designs with enough white space to actually color in. Young kids can fill them in without getting frustrated.</p>
+    </div>
+    <div class="rounded-lg border border-border bg-muted/40 p-5">
+      <p class="flex items-center gap-2 font-medium text-foreground mb-1">
+        <GiftIcon class="size-4 text-primary shrink-0" aria-hidden="true" />
+        Free, no catch
+      </p>
+      <p class="text-sm text-muted-foreground">Every coloring page is free to download and print for personal and classroom use. No account needed.</p>
+    </div>
+  </section>
 
   <!-- Category links -->
-  <nav class="mb-8 flex flex-wrap gap-2" aria-label="Browse by category">
-    {
-      categories.map((cat) => (
-        <Badge
-          href={`/coloring-pages/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
-          variant="outline"
-          size="sm"
-        >
-          {cat}
-        </Badge>
-      ))
-    }
-  </nav>
+  <div class="mb-6 flex flex-wrap items-center gap-2">
+    <span class="text-sm font-medium text-foreground">Browse by category:</span>
+    <nav class="flex flex-wrap gap-2" aria-label="Browse by category">
+      {
+        categories.map((cat) => (
+          <Badge
+            href={`/coloring-pages/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+            variant="outline"
+            size="sm"
+          >
+            {cat}
+          </Badge>
+        ))
+      }
+    </nav>
+  </div>
 
   <!-- Grid -->
   <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
@@ -79,4 +120,42 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
       ))
     }
   </ul>
+
+  <!-- Blog posts -->
+  {
+    blogPosts.length > 0 && (
+      <section class="mt-16 border-t border-border pt-12">
+        <div class="mb-6 flex items-center justify-between">
+          <h2 class="heading-4">From the Blog</h2>
+          <a href="/blog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            All posts →
+          </a>
+        </div>
+        <ul class="grid gap-4 sm:grid-cols-2">
+          {blogPosts.map((post) => (
+            <li>
+              <a href={`/blog/${post.slug}`} class="group block">
+                <Card class="transition-shadow group-hover:shadow-md">
+                  <CardHeader>
+                    <p class="text-caption">
+                      {post.data.pubDate.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
+                    <CardTitle class="group-hover:text-primary transition-colors">
+                      {post.data.title}
+                    </CardTitle>
+                    <CardDescription>{post.data.description}</CardDescription>
+                  </CardHeader>
+                </Card>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
 </Page>
