@@ -18,7 +18,6 @@ const coloringPages = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().max(160),
-    category: z.string(),
     tags: z.array(z.string()).default([]),
     difficulty: z.enum(["easy", "medium", "hard"]).default("easy"),
     imageUrl: z.string(),

@@ -8,21 +8,27 @@ import CardHeader from "@/components/starwind/card/CardHeader.astro";
 import CardTitle from "@/components/starwind/card/CardTitle.astro";
 import CardDescription from "@/components/starwind/card/CardDescription.astro";
 import Badge from "@/components/starwind/badge/Badge.astro";
-import EmailSignup from "@/components/EmailSignup.astro";
-import PrinterIcon from "@tabler/icons/outline/printer.svg";
-import MoodKidIcon from "@tabler/icons/outline/mood-kid.svg";
-import GiftIcon from "@tabler/icons/outline/gift.svg";
+import Button from "@/components/starwind/button/Button.astro";
 
 const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
 const blogPosts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 2);
 
-const sorted = allPages.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+// Hub pages: no "/" in slug (from topic/index.md files)
+const hubs = allPages
+  .filter((p) => !p.slug.includes("/"))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+// Hub slugs that have variants — these are excluded from the image grid
+const hubSlugsWithVariants = new Set(
+  allPages.filter((p) => p.slug.includes("/")).map((p) => p.slug.split("/")[0])
 );
 
-const categories = [...new Set(sorted.map((p) => p.data.category))].sort();
+// All individual images: variants + solo hubs (no variants)
+const gridPages = allPages
+  .filter((p) => p.slug.includes("/") || !hubSlugsWithVariants.has(p.slug))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
   easy: "success",
@@ -34,61 +40,35 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
 <Page title="Free Coloring Pages to Print" description={siteConfig.description}>
 
   <!-- Hero -->
-  <section class="mb-12 text-center">
-    <h1 class="heading-1 mb-4">Free Coloring Pages to Print</h1>
-    <p class="text-lead mx-auto max-w-xl">
-      Simple, clean coloring pages for kids — no clutter, no sign-up required.
-      Download and print any page for free.
+  <section class="mb-10">
+    <h1 class="heading-1 mb-3">Free Coloring Pages to Print</h1>
+    <p class="text-body max-w-2xl">
+      Free printable coloring pages for kids of all ages. Every page has big, clear outlines that print well on a standard home printer — animals, holidays, characters, and more. No account or sign-up needed. Just pick a page, download, and print.
     </p>
   </section>
 
-  <!-- Why us -->
-  <section class="mb-12 grid gap-4 sm:grid-cols-3">
-    <div class="rounded-lg border border-border bg-muted/40 p-5">
-      <p class="flex items-center gap-2 font-medium text-foreground mb-1">
-        <PrinterIcon class="size-4 text-primary shrink-0" aria-hidden="true" />
-        Actually printable
-      </p>
-      <p class="text-sm text-muted-foreground">Big, clear outlines that look good on paper — not just on screen. No tiny details that bleed together when printed.</p>
-    </div>
-    <div class="rounded-lg border border-border bg-muted/40 p-5">
-      <p class="flex items-center gap-2 font-medium text-foreground mb-1">
-        <MoodKidIcon class="size-4 text-primary shrink-0" aria-hidden="true" />
-        Sized right for kids
-      </p>
-      <p class="text-sm text-muted-foreground">Designs with enough white space to actually color in. Young kids can fill them in without getting frustrated.</p>
-    </div>
-    <div class="rounded-lg border border-border bg-muted/40 p-5">
-      <p class="flex items-center gap-2 font-medium text-foreground mb-1">
-        <GiftIcon class="size-4 text-primary shrink-0" aria-hidden="true" />
-        Free, no catch
-      </p>
-      <p class="text-sm text-muted-foreground">Every coloring page is free to download and print for personal and classroom use. No account needed.</p>
-    </div>
-  </section>
-
-  <!-- Category links -->
+  <!-- Hub filter buttons -->
   <div class="mb-6 flex flex-wrap items-center gap-2">
-    <span class="text-sm font-medium text-foreground">Browse by category:</span>
-    <nav class="flex flex-wrap gap-2" aria-label="Browse by category">
+    <span class="text-sm font-medium text-foreground">Browse by subject:</span>
+    <nav class="flex flex-wrap gap-2" aria-label="Browse by subject">
       {
-        categories.map((cat) => (
-          <Badge
-            href={`/coloring-pages/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+        hubs.map((hub) => (
+          <Button
+            href={`/coloring-pages/${hub.slug}`}
             variant="outline"
             size="sm"
           >
-            {cat}
-          </Badge>
+            {hub.data.title.replace(" Coloring Pages", "").replace(" Coloring Page", "")}
+          </Button>
         ))
       }
     </nav>
   </div>
 
-  <!-- Grid -->
+  <!-- Grid — all individual images -->
   <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
     {
-      sorted.map((page) => (
+      gridPages.map((page) => (
         <li>
           <a href={`/coloring-pages/${page.slug}`} class="group block">
             <Card class="overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
@@ -103,16 +83,13 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
                 <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
                   {page.data.title}
                 </p>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-caption">{page.data.category}</span>
-                  <Badge
-                    variant={difficultyVariant[page.data.difficulty]}
-                    size="sm"
-                    class="capitalize"
-                  >
-                    {page.data.difficulty}
-                  </Badge>
-                </div>
+                <Badge
+                  variant={difficultyVariant[page.data.difficulty]}
+                  size="sm"
+                  class="capitalize self-start"
+                >
+                  {page.data.difficulty}
+                </Badge>
               </CardContent>
             </Card>
           </a>

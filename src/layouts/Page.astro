@@ -5,9 +5,16 @@ import SearchModal from "@/components/search/SearchModal.astro";
 import EmailSignup from "@/components/EmailSignup.astro";
 import Base from "./Base.astro";
 import { siteConfig } from "@/config/site";
+import Sheet from "@/components/starwind/sheet/Sheet.astro";
+import SheetTrigger from "@/components/starwind/sheet/SheetTrigger.astro";
+import SheetContent from "@/components/starwind/sheet/SheetContent.astro";
+import SheetHeader from "@/components/starwind/sheet/SheetHeader.astro";
+import SheetTitle from "@/components/starwind/sheet/SheetTitle.astro";
 
 const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
-const categories = [...new Set(allPages.map((p) => p.data.category))].sort();
+const hubs = allPages
+  .filter((p) => !p.slug.includes("/"))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 interface Props {
   title: string;
@@ -26,23 +33,49 @@ const currentPath = Astro.url.pathname;
   ogImage={ogImage}
   noindex={noindex}
 >
-  <header class="border-b border-border">
+  <header class="bg-accent">
     <Container class="flex items-center justify-between py-3">
-      <a href="/" class="font-semibold text-foreground hover:text-primary">
-        {siteConfig.name}
+      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <img src="/find-coloring-pages-logo.png" alt="" class="h-16 w-auto" />
+        <span class="font-bold text-xl text-accent-foreground">{siteConfig.name}</span>
       </a>
-      <div class="flex items-center gap-6">
-        <ul class="flex items-center gap-4">
+
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-6">
+        <ul class="flex items-center gap-5">
+          <!-- Categories dropdown -->
+          <li class="relative group">
+            <a
+              href="/coloring-pages"
+              class:list={[
+                "text-base text-accent-foreground flex items-center gap-1 hover:underline",
+                currentPath.startsWith("/coloring-pages") ? "font-semibold" : "font-normal",
+              ]}
+            >
+              Coloring Pages
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </a>
+            <ul class="absolute left-0 top-full z-50 hidden group-hover:block min-w-44 rounded-md border border-border bg-background shadow-md py-1 overflow-hidden">
+              {hubs.map((hub) => (
+                <li>
+                  <a
+                    href={`/coloring-pages/${hub.slug}`}
+                    class="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                  >
+                    {hub.data.title.replace(" Coloring Pages", "").replace(" Coloring Page", "")}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </li>
           {
             siteConfig.nav.map((item) => (
               <li>
                 <a
                   href={item.href}
                   class:list={[
-                    "text-sm transition-colors hover:text-primary",
-                    currentPath === item.href
-                      ? "text-foreground font-medium"
-                      : "text-muted-foreground",
+                    "text-base text-accent-foreground hover:underline",
+                    currentPath === item.href ? "font-semibold" : "font-normal",
                   ]}
                 >
                   {item.label}
@@ -53,6 +86,49 @@ const currentPath = Astro.url.pathname;
         </ul>
         <SearchModal />
       </div>
+
+      <!-- Mobile nav -->
+      <div class="flex md:hidden items-center gap-3">
+        <SearchModal />
+        <Sheet>
+          <SheetTrigger aria-label="Open menu" class="p-2 text-accent-foreground hover:opacity-70">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </SheetTrigger>
+          <SheetContent side="right" class="p-6">
+            <SheetHeader>
+              <SheetTitle>
+                <a href="/" class="text-foreground font-bold text-lg">{siteConfig.name}</a>
+              </SheetTitle>
+            </SheetHeader>
+            <nav class="mt-6 flex flex-col gap-1">
+              <p class="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Coloring Pages</p>
+              {hubs.map((hub) => (
+                <a
+                  href={`/coloring-pages/${hub.slug}`}
+                  class:list={[
+                    "block px-3 py-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors",
+                    currentPath === `/coloring-pages/${hub.slug}` ? "font-semibold bg-muted" : "",
+                  ]}
+                >
+                  {hub.data.title.replace(" Coloring Pages", "").replace(" Coloring Page", "")}
+                </a>
+              ))}
+              <div class="my-3 border-t border-border" />
+              {siteConfig.nav.map((item) => (
+                <a
+                  href={item.href}
+                  class:list={[
+                    "block px-3 py-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors",
+                    currentPath === item.href ? "font-semibold bg-muted" : "",
+                  ]}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </SheetContent>
+        </Sheet>
+      </div>
     </Container>
   </header>
 
@@ -62,15 +138,15 @@ const currentPath = Astro.url.pathname;
     </Container>
   </main>
 
-  <footer class="border-t border-border mt-(--section-gap)">
+  <footer class="bg-muted mt-(--section-gap)">
     <Container class="py-10">
       <div class="grid gap-8 sm:grid-cols-[2fr_1fr_1fr]">
         <!-- Brand + signup -->
         <div>
-          <a href="/" class="font-semibold text-foreground hover:text-primary">
-            {siteConfig.name}
+          <a href="/" class="hover:opacity-80 transition-opacity inline-block">
+            <img src="/find-coloring-pages-logo.png" alt={siteConfig.name} class="h-14 w-auto" />
           </a>
-          <p class="mt-2 mb-4 text-sm text-muted-foreground">
+          <p class="mt-2 mb-4 text-sm text-foreground/70">
             Free printable coloring pages for kids and adults.
           </p>
           <EmailSignup compact />
@@ -78,16 +154,16 @@ const currentPath = Astro.url.pathname;
 
         <!-- Categories -->
         <div>
-          <p class="text-sm font-medium text-foreground mb-3">Browse by Category</p>
+          <p class="text-sm font-medium text-foreground mb-3">Browse by Subject</p>
           <ul class="space-y-2">
             {
-              categories.map((cat) => (
+              hubs.map((hub) => (
                 <li>
                   <a
-                    href={`/coloring-pages/category/${cat.toLowerCase().replace(/\s+/g, "-")}`}
-                    class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    href={`/coloring-pages/${hub.slug}`}
+                    class="text-sm text-foreground/70 hover:text-foreground transition-colors"
                   >
-                    {cat}
+                    {hub.data.title.replace(" Coloring Pages", "").replace(" Coloring Page", "")}
                   </a>
                 </li>
               ))
@@ -104,7 +180,7 @@ const currentPath = Astro.url.pathname;
                 <li>
                   <a
                     href={item.href}
-                    class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    class="text-sm text-foreground/70 hover:text-foreground transition-colors"
                   >
                     {item.label}
                   </a>
@@ -112,7 +188,7 @@ const currentPath = Astro.url.pathname;
               ))
             }
             <li>
-              <a href="/sitemap-index.xml" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/sitemap-index.xml" class="text-sm text-foreground/70 hover:text-foreground transition-colors">
                 Sitemap
               </a>
             </li>
@@ -120,7 +196,7 @@ const currentPath = Astro.url.pathname;
         </div>
       </div>
 
-      <div class="mt-8 border-t border-border pt-6 text-center text-sm text-muted-foreground">
+      <div class="mt-8 border-t border-border pt-6 text-center text-sm text-foreground/60">
         &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
       </div>
     </Container>

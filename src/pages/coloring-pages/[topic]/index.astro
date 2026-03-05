@@ -1,0 +1,170 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import Breadcrumb from "@/components/starwind/breadcrumb/Breadcrumb.astro";
+import BreadcrumbList from "@/components/starwind/breadcrumb/BreadcrumbList.astro";
+import BreadcrumbItem from "@/components/starwind/breadcrumb/BreadcrumbItem.astro";
+import BreadcrumbLink from "@/components/starwind/breadcrumb/BreadcrumbLink.astro";
+import BreadcrumbSeparator from "@/components/starwind/breadcrumb/BreadcrumbSeparator.astro";
+import BreadcrumbPage from "@/components/starwind/breadcrumb/BreadcrumbPage.astro";
+import Button from "@/components/starwind/button/Button.astro";
+import Badge from "@/components/starwind/badge/Badge.astro";
+import Card from "@/components/starwind/card/Card.astro";
+import CardContent from "@/components/starwind/card/CardContent.astro";
+import Prose from "@/components/starwind/prose/Prose.astro";
+import EmailPopup from "@/components/EmailPopup.astro";
+
+export async function getStaticPaths() {
+  const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+  // All pages without "/" in their slug are hub pages (from topic/index.md files)
+  const hubPages = allPages.filter((p) => !p.slug.includes("/"));
+
+  return await Promise.all(
+    hubPages.map(async (page) => {
+      const topic = page.slug;
+      const variants = allPages
+        .filter((p) => p.slug.startsWith(topic + "/"))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+      const { Content } = await page.render();
+      return {
+        params: { topic },
+        props: { page, variants, Content },
+      };
+    })
+  );
+}
+
+const { page, variants, Content } = Astro.props;
+const { data } = page;
+
+const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
+  easy: "success",
+  medium: "warning",
+  hard: "error",
+};
+---
+
+<Page title={data.title} description={data.description} ogImage={data.imageUrl}>
+  <!-- Breadcrumb -->
+  <Breadcrumb class="mb-6">
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Coloring Pages</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>{data.title}</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+
+  {variants.length === 0 ? (
+    /* Single image — show it directly like a detail page */
+    <div class="grid gap-8 lg:grid-cols-[1fr_280px]">
+      <div>
+        <div class="rounded-lg border border-border bg-white p-4 shadow-sm">
+          <img
+            src={data.imageUrl}
+            alt={data.title}
+            class="mx-auto block max-h-150 w-full object-contain"
+            loading="eager"
+          />
+        </div>
+        <div class="mt-4 flex gap-3">
+          <Button href={data.imageUrl} download variant="primary" class="flex-1 justify-center">
+            Download PNG
+          </Button>
+          {data.pdfUrl && (
+            <Button href={data.pdfUrl} download variant="outline" class="flex-1 justify-center">
+              Download PDF
+            </Button>
+          )}
+        </div>
+        <Prose class="mt-8 max-w-none">
+          <Content />
+        </Prose>
+      </div>
+      <aside class="space-y-6">
+        <div>
+          <h1 class="heading-3">{data.title}</h1>
+          <p class="text-lead mt-2">{data.description}</p>
+        </div>
+        <dl class="space-y-3 text-sm">
+          <div class="flex items-center justify-between border-b border-border pb-3">
+            <dt class="text-caption">Difficulty</dt>
+            <dd>
+              <Badge variant={difficultyVariant[data.difficulty]} size="sm" class="capitalize">
+                {data.difficulty}
+              </Badge>
+            </dd>
+          </div>
+          <div class="flex items-center justify-between border-b border-border pb-3">
+            <dt class="text-caption">Format</dt>
+            <dd class="font-medium text-foreground">PNG {data.pdfUrl ? "+ PDF" : ""}</dd>
+          </div>
+        </dl>
+        {data.tags.length > 0 && (
+          <div>
+            <p class="text-caption mb-2">Tags</p>
+            <div class="flex flex-wrap gap-1.5">
+              {data.tags.map((tag) => (
+                <Badge variant="secondary" size="sm" class="capitalize">{tag}</Badge>
+              ))}
+            </div>
+          </div>
+        )}
+        <div class="rounded-lg border border-border bg-muted p-4 text-sm text-muted-foreground">
+          <p class="font-medium text-foreground mb-1">Free to print & share</p>
+          <p>All coloring pages are free to download and print for personal and classroom use.</p>
+        </div>
+      </aside>
+    </div>
+  ) : (
+    /* Multiple variants — show gallery */
+    <>
+      <div class="mb-8">
+        <h1 class="heading-2">{data.title}</h1>
+        <p class="text-lead mt-2">{data.description}</p>
+      </div>
+      <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 mb-12" role="list">
+        {variants.map((variant) => {
+          const [topic, variantSlug] = variant.slug.split("/");
+          return (
+            <li>
+              <a href={`/coloring-pages/${topic}/${variantSlug}`} class="group block">
+                <Card class="overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+                  <img
+                    src={variant.data.imageUrl}
+                    alt={variant.data.title}
+                    class="h-48 w-full object-contain bg-muted p-3 transition-transform group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <CardContent class="flex flex-col gap-2">
+                    <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
+                      {variant.data.title}
+                    </p>
+                    <div class="flex items-center justify-between gap-2">
+                      <Badge
+                        variant={difficultyVariant[variant.data.difficulty]}
+                        size="sm"
+                        class="capitalize"
+                      >
+                        {variant.data.difficulty}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <Prose class="max-w-none">
+        <Content />
+      </Prose>
+    </>
+  )}
+
+  <EmailPopup />
+</Page>

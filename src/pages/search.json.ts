@@ -8,10 +8,9 @@ export const GET: APIRoute = async () => {
     slug: page.slug,
     title: page.data.title,
     description: page.data.description,
-    category: page.data.category,
     tags: page.data.tags,
     difficulty: page.data.difficulty,
-    url: `/coloring-pages/${page.slug}/`,
+    url: `/coloring-pages/${page.slug.replace(/\/index$/, "")}/`,
   }));
 
   return new Response(JSON.stringify(index), {

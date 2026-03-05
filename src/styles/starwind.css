@@ -80,34 +80,34 @@
 }
 
 :root {
-  --background: #FFFFFF;
+  --background: #F8F7F4;
   --foreground: #1A1008;
-  --card: #FFFFFF;
+  --card: #F8F7F4;
   --card-foreground: #1A1008;
-  --popover: #FFFFFF;
+  --popover: #F8F7F4;
   --popover-foreground: #1A1008;
-  --primary: #1F75FE;
+  --primary: #2C68C4;
   --primary-foreground: #FFFFFF;
-  --primary-accent: #1F75FE;
-  --secondary: #FF7538;
+  --primary-accent: #2C68C4;
+  --secondary: #C75E2A;
   --secondary-foreground: #FFFFFF;
-  --secondary-accent: #E63946;
-  --muted: #F5F5F5;
-  --muted-foreground: #666666;
-  --accent: #FCE83A;
+  --secondary-accent: #B02830;
+  --muted: #EDEBE6;
+  --muted-foreground: #5A5A5A;
+  --accent: #F2C024;
   --accent-foreground: #1A1008;
-  --info: #87CEEB;
+  --info: #6AACCC;
   --info-foreground: #1A1008;
-  --success: #52D017;
-  --success-foreground: #1A1008;
-  --warning: #FCE83A;
+  --success: #3A8E18;
+  --success-foreground: #FFFFFF;
+  --warning: #E8B020;
   --warning-foreground: #1A1008;
-  --error: #E63946;
+  --error: #B02830;
   --error-foreground: #FFFFFF;
   --border: #1A1008;
-  --input: #FFFFFF;
-  --outline: #1F75FE;
-  --radius: 1.25rem;
+  --input: #F8F7F4;
+  --outline: #2C68C4;
+  --radius: 0.75rem;
 
   /* layout tokens */
   --container-width: 72rem;       /* max-w-6xl equivalent */
@@ -119,12 +119,12 @@
   /* sidebar variables */
   --sidebar-background: #F5F5F5;
   --sidebar-foreground: #1A1008;
-  --sidebar-primary: #1F75FE;
+  --sidebar-primary: #2C68C4;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #FCE83A;
+  --sidebar-accent: #F2C024;
   --sidebar-accent-foreground: #1A1008;
   --sidebar-border: #1A1008;
-  --sidebar-outline: #1F75FE;
+  --sidebar-outline: #2C68C4;
 }
 
 .dark {
@@ -134,9 +134,9 @@
   --card-foreground: #FFF8F0;
   --popover: #2A1E10;
   --popover-foreground: #FFF8F0;
-  --primary: #5B9BFF;
+  --primary: #5888CC;
   --primary-foreground: #1A1008;
-  --primary-accent: #5B9BFF;
+  --primary-accent: #5888CC;
   --secondary: #FF7538;
   --secondary-foreground: #1A1008;
   --secondary-accent: #E63946;
@@ -154,17 +154,17 @@
   --error-foreground: #FFFFFF;
   --border: #C8A882;
   --input: #2A1E10;
-  --outline: #5B9BFF;
+  --outline: #5888CC;
 
   /* sidebars variables */
   --sidebar-background: #2A1E10;
   --sidebar-foreground: #FFF8F0;
-  --sidebar-primary: #5B9BFF;
+  --sidebar-primary: #5888CC;
   --sidebar-primary-foreground: #1A1008;
   --sidebar-accent: #3A2A10;
   --sidebar-accent-foreground: #FFF8F0;
   --sidebar-border: #C8A882;
-  --sidebar-outline: #5B9BFF;
+  --sidebar-outline: #5888CC;
 }
 
 @layer base {
@@ -183,13 +183,13 @@
 @layer components {
   /* Heading scale — use these classes instead of raw text-* utilities */
   .heading-1 {
-    @apply text-4xl font-bold tracking-tight text-foreground;
+    @apply text-4xl font-bold text-foreground;
   }
   .heading-2 {
-    @apply text-3xl font-bold tracking-tight text-foreground;
+    @apply text-3xl font-bold text-foreground;
   }
   .heading-3 {
-    @apply text-2xl font-semibold tracking-tight text-foreground;
+    @apply text-2xl font-semibold text-foreground;
   }
   .heading-4 {
     @apply text-xl font-semibold text-foreground;
