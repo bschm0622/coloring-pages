@@ -1,0 +1,44 @@
+# Find Coloring Pages
+
+> Free printable coloring pages for kids and adults at findcoloringpages.com.
+> Every page is free to download and print — no account, no email, no paywall.
+
+## About
+
+Find Coloring Pages offers high-quality printable coloring sheets organized by subject and difficulty level (easy, medium, hard). Pages are PNG files formatted for standard 8.5×11 inch paper, suitable for home printers. All pages are free for personal and classroom use.
+
+## Content
+
+- Coloring pages organized by subject (animals, holidays, characters, and more)
+- Each page labeled with difficulty: easy, medium, or hard
+- PNG downloads, print-ready on standard 8.5×11 paper
+- Blog with tips, activity ideas, and coloring guides
+
+## Available subjects
+
+- /coloring-pages/axolotl — Axolotl coloring pages
+- /coloring-pages/baby-lamb — Baby lamb coloring pages
+- /coloring-pages/bunny — Bunny coloring pages
+- /coloring-pages/clown — Clown coloring pages
+- /coloring-pages/dragon — Dragon coloring pages
+- /coloring-pages/duck — Duck coloring pages
+- /coloring-pages/easter — Easter coloring pages
+- /coloring-pages/flowers — Flower coloring pages
+- /coloring-pages/lioness — Lioness coloring pages
+- /coloring-pages/palm-trees — Palm tree coloring pages
+- /coloring-pages/penguin — Penguin coloring pages
+- /coloring-pages/police — Police coloring pages
+- /coloring-pages/pug — Pug coloring pages
+- /coloring-pages/puppy — Puppy coloring pages
+- /coloring-pages/soccer — Soccer coloring pages
+- /coloring-pages/starfish — Starfish coloring pages
+- /coloring-pages/t-rex — T-Rex coloring pages
+- /coloring-pages/unicorn — Unicorn coloring pages
+
+## Key URLs
+
+- https://findcoloringpages.com/ — Homepage with full browse grid
+- https://findcoloringpages.com/coloring-pages — All subjects
+- https://findcoloringpages.com/blog — Blog posts and tips
+- https://findcoloringpages.com/rss.xml — RSS feed
+- https://findcoloringpages.com/sitemap-index.xml — Full sitemap

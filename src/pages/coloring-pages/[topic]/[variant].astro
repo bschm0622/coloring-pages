@@ -48,7 +48,7 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
   hard: "error",
 };
 
-const hubTitle = topic.charAt(0).toUpperCase() + topic.slice(1) + " Coloring Pages";
+const hubTitle = topic.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") + " Coloring Pages";
 
 const { variant } = Astro.params;
 const pageUrl = `${siteConfig.url}/coloring-pages/${topic}/${variant}`;

@@ -126,6 +126,8 @@ If you already have `puppy/` and add a new image `puppy-baby.png`:
 
 **Hub not working:** The hub file must be named `index.md` inside the subject folder. Not `puppy.md`, not `puppies/index.md` — exactly `puppy/index.md`.
 
+**Duplicate id warning / variant not showing up:** Never name a variant file the same as its parent folder. `palm-trees/palm-trees.md` collides with `palm-trees/index.md` — both resolve to the id `palm-trees`. Name variants after the image variation instead: `palm-trees/tropical-scene.md`, `palm-trees/single.md`, etc.
+
 **Wrong URL:** The URL comes from the filename. `puppy/baby.md` → `/coloring-pages/puppy/baby`. Rename the file to change the URL.
 
 **New subject not in nav:** Hub pages appear in the nav automatically. No config changes needed.
