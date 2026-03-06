@@ -85,17 +85,9 @@
 </div>
 
 <script>
-  const root = document.querySelector("[data-search-root]")!;
-  const trigger = root.querySelector("[data-search-trigger]")!;
-  const overlay = root.querySelector("[data-search-overlay]") as HTMLElement;
-  const input = root.querySelector("[data-search-input]") as HTMLInputElement;
-  const resultsList = root.querySelector("[data-search-results]")!;
-  const emptyMsg = root.querySelector("[data-search-empty]")!;
-  const closeBtn = root.querySelector("[data-search-close]")!;
-
   let fuse: any = null;
 
-  async function loadFuse() {
+  async function loadFuse(input: HTMLInputElement) {
     if (fuse) return;
     try {
       const [{ default: Fuse }, res] = await Promise.all([
@@ -108,69 +100,77 @@
         threshold: 0.2,
         ignoreLocation: true,
       });
-      // Re-run search if user already typed
       if (input.value.trim()) input.dispatchEvent(new Event("input"));
     } catch (e) {
       console.error("Search failed to load:", e);
     }
   }
 
-  function openModal() {
-    overlay.classList.remove("hidden");
-    input.focus();
-    loadFuse();
-  }
+  document.querySelectorAll("[data-search-root]").forEach((root) => {
+    const trigger = root.querySelector("[data-search-trigger]")!;
+    const overlay = root.querySelector("[data-search-overlay]") as HTMLElement;
+    const input = root.querySelector("[data-search-input]") as HTMLInputElement;
+    const resultsList = root.querySelector("[data-search-results]")!;
+    const emptyMsg = root.querySelector("[data-search-empty]")!;
+    const closeBtn = root.querySelector("[data-search-close]")!;
 
-  function closeModal() {
-    overlay.classList.add("hidden");
-    input.value = "";
-    resultsList.innerHTML = "";
-    emptyMsg.classList.add("hidden");
-  }
+    function openModal() {
+      overlay.classList.remove("hidden");
+      input.focus();
+      loadFuse(input);
+    }
 
-  trigger.addEventListener("click", openModal);
-  closeBtn.addEventListener("click", closeModal);
-
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) closeModal();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !overlay.classList.contains("hidden")) closeModal();
-  });
-
-  input.addEventListener("input", () => {
-    const query = input.value.trim();
-
-    if (!query || !fuse) {
+    function closeModal() {
+      overlay.classList.add("hidden");
+      input.value = "";
       resultsList.innerHTML = "";
       emptyMsg.classList.add("hidden");
-      return;
     }
 
-    const results = fuse.search(query).slice(0, 8);
+    trigger.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
 
-    if (results.length === 0) {
-      resultsList.innerHTML = "";
-      emptyMsg.classList.remove("hidden");
-      return;
-    }
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeModal();
+    });
 
-    emptyMsg.classList.add("hidden");
-    resultsList.innerHTML = results
-      .map(
-        ({ item }: { item: any }) => `
-        <li role="option">
-          <a
-            href="${item.url}"
-            class="flex flex-col gap-0.5 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground"
-          >
-            <span class="text-sm font-medium text-foreground">${item.title}</span>
-            <span class="text-xs text-muted-foreground line-clamp-1">${item.description}</span>
-          </a>
-        </li>
-      `
-      )
-      .join("");
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !overlay.classList.contains("hidden")) closeModal();
+    });
+
+    input.addEventListener("input", () => {
+      const query = input.value.trim();
+
+      if (!query || !fuse) {
+        resultsList.innerHTML = "";
+        emptyMsg.classList.add("hidden");
+        return;
+      }
+
+      const results = fuse.search(query).slice(0, 8);
+
+      if (results.length === 0) {
+        resultsList.innerHTML = "";
+        emptyMsg.classList.remove("hidden");
+        return;
+      }
+
+      emptyMsg.classList.add("hidden");
+      resultsList.innerHTML = results
+        .map(
+          ({ item }: { item: any }) => `
+          <li role="option">
+            <a
+              href="${item.url}"
+              class="flex flex-col gap-0.5 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground"
+            >
+              <span class="text-sm font-medium text-foreground">${item.title}</span>
+              <span class="text-xs text-muted-foreground line-clamp-1">${item.description}</span>
+            </a>
+          </li>
+        `
+        )
+        .join("");
+    });
   });
 </script>
