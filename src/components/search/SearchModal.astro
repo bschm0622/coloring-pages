@@ -64,7 +64,8 @@
           aria-label="Close search"
           class="text-muted-foreground hover:text-foreground"
         >
-          <kbd class="rounded border border-border px-1 text-xs">Esc</kbd>
+          <kbd class="hidden sm:inline rounded border border-border px-1 text-xs">Esc</kbd>
+          <svg class="sm:hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
       <ul
@@ -152,8 +153,11 @@
       if (results.length === 0) {
         resultsList.innerHTML = "";
         emptyMsg.classList.remove("hidden");
+        window.umami?.track("Search", { query, results: 0 });
         return;
       }
+
+      window.umami?.track("Search", { query, results: results.length });
 
       emptyMsg.classList.add("hidden");
       resultsList.innerHTML = results
