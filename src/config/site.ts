@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "Free printable coloring pages for kids and adults. Browse hundreds of coloring sheets by category.",
   author: {
-    name: "",
+    name: "Becky Schmidt",
     email: "",
     twitter: "",
   },

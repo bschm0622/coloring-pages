@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import Button from "@/components/starwind/button/Button.astro";
+
+const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+const hubs = allPages
+  .filter((p) => !p.slug.includes("/"))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<Page
+  title="Page Not Found"
+  description="Sorry, we couldn't find that page. Browse our free printable coloring pages below."
+  noindex
+>
+  <div class="py-16 text-center">
+    <p class="text-caption mb-3">404</p>
+    <h1 class="heading-2 mb-4">Page not found</h1>
+    <p class="text-lead mb-10 max-w-md mx-auto">
+      That page doesn't exist or may have moved. Pick a subject below to find what you're looking for.
+    </p>
+
+    <nav class="flex flex-wrap justify-center gap-2 mb-10" aria-label="Browse subjects">
+      {hubs.map((hub) => (
+        <Button href={`/coloring-pages/${hub.slug}`} variant="outline" size="sm">
+          {hub.data.title.replace(" Coloring Pages", "").replace(" Coloring Page", "")}
+        </Button>
+      ))}
+    </nav>
+
+    <Button href="/" variant="primary">Back to home</Button>
+  </div>
+</Page>

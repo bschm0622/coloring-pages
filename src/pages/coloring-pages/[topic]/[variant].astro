@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
 import Breadcrumb from "@/components/starwind/breadcrumb/Breadcrumb.astro";
 import BreadcrumbList from "@/components/starwind/breadcrumb/BreadcrumbList.astro";
 import BreadcrumbItem from "@/components/starwind/breadcrumb/BreadcrumbItem.astro";
@@ -16,6 +17,7 @@ import Prose from "@/components/starwind/prose/Prose.astro";
 
 export async function getStaticPaths() {
   const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+  const hubPages = allPages.filter((p) => !p.slug.includes("/"));
   const variantPages = allPages.filter((p) => {
     const parts = p.slug.split("/");
     return parts.length === 2 && parts[1] !== "index";
@@ -23,18 +25,20 @@ export async function getStaticPaths() {
 
   return variantPages.map((page) => {
     const [topic, variant] = page.slug.split("/");
-    // Related: other variants in same topic, excluding this one
     const related = allPages
       .filter((p) => p.slug.startsWith(topic + "/") && p.slug !== page.slug)
       .slice(0, 4);
+    const suggestedHubs = hubPages
+      .filter((h) => h.slug !== topic)
+      .slice(0, 4);
     return {
       params: { topic, variant },
-      props: { page, topic, related },
+      props: { page, topic, related, suggestedHubs },
     };
   });
 }
 
-const { page, topic, related } = Astro.props;
+const { page, topic, related, suggestedHubs } = Astro.props;
 const { data } = page;
 const { Content } = await page.render();
 
@@ -44,11 +48,38 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
   hard: "error",
 };
 
-// Hub page title for breadcrumb — capitalize the topic
 const hubTitle = topic.charAt(0).toUpperCase() + topic.slice(1) + " Coloring Pages";
+
+const { variant } = Astro.params;
+const pageUrl = `${siteConfig.url}/coloring-pages/${topic}/${variant}`;
+const imageUrl = `${siteConfig.url}${data.imageUrl}`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: data.title,
+    description: data.description,
+    url: pageUrl,
+    image: { "@type": "ImageObject", url: imageUrl, encodingFormat: "image/png" },
+    isAccessibleForFree: true,
+    keywords: data.tags.join(", "),
+    audience: { "@type": "Audience", audienceType: "children" },
+    datePublished: data.pubDate.toISOString(),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Coloring Pages", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: hubTitle, item: `${siteConfig.url}/coloring-pages/${topic}` },
+      { "@type": "ListItem", position: 3, name: data.title },
+    ],
+  },
+];
 ---
 
-<Page title={data.title} description={data.description} ogImage={data.imageUrl}>
+<Page title={data.title} description={data.description} ogImage={data.imageUrl} jsonLd={jsonLd}>
   <!-- Breadcrumb -->
   <Breadcrumb class="mb-6">
     <BreadcrumbList>
@@ -75,6 +106,7 @@ const hubTitle = topic.charAt(0).toUpperCase() + topic.slice(1) + " Coloring Pag
           alt={data.title}
           class="mx-auto block max-h-150 w-full object-contain"
           loading="eager"
+          fetchpriority="high"
         />
       </div>
 
@@ -161,6 +193,7 @@ const hubTitle = topic.charAt(0).toUpperCase() + topic.slice(1) + " Coloring Pag
                       alt={p.data.title}
                       class="h-32 w-full object-contain bg-muted p-2 transition-transform group-hover:scale-105"
                       loading="lazy"
+                      decoding="async"
                     />
                     <CardContent>
                       <p class="text-xs font-medium text-card-foreground line-clamp-2">
@@ -176,6 +209,35 @@ const hubTitle = topic.charAt(0).toUpperCase() + topic.slice(1) + " Coloring Pag
       </section>
     )
   }
+
+  <!-- Explore more subjects -->
+  {suggestedHubs.length > 0 && (
+    <section class="mt-12 border-t border-border pt-10">
+      <h2 class="heading-4 mb-6">Explore more coloring pages</h2>
+      <ul class="grid grid-cols-2 gap-4 sm:grid-cols-4" role="list">
+        {suggestedHubs.map((hub) => (
+          <li>
+            <a href={`/coloring-pages/${hub.slug}`} class="group block">
+              <Card class="overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+                <img
+                  src={hub.data.imageUrl}
+                  alt={hub.data.title}
+                  class="h-32 w-full object-contain bg-muted p-2 transition-transform group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <CardContent>
+                  <p class="text-xs font-medium text-card-foreground line-clamp-2">
+                    {hub.data.title}
+                  </p>
+                </CardContent>
+              </Card>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <EmailPopup />
 </Page>

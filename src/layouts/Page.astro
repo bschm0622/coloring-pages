@@ -20,10 +20,14 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  type?: "website" | "article";
   noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, ogImage, noindex } = Astro.props;
+const { title, description, ogImage, pubDate, updatedDate, type, noindex, jsonLd } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -31,7 +35,11 @@ const currentPath = Astro.url.pathname;
   title={title}
   description={description}
   ogImage={ogImage}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  type={type}
   noindex={noindex}
+  jsonLd={jsonLd}
 >
   <header class="bg-accent">
     <Container class="flex items-center justify-between py-3">
@@ -155,10 +163,10 @@ const currentPath = Astro.url.pathname;
         <!-- Categories -->
         <div>
           <p class="text-sm font-medium text-foreground mb-3">Browse by Subject</p>
-          <ul class="space-y-2">
+          <ul class="columns-2 gap-x-4 space-y-2">
             {
               hubs.map((hub) => (
-                <li>
+                <li class="break-inside-avoid">
                   <a
                     href={`/coloring-pages/${hub.slug}`}
                     class="text-sm text-foreground/70 hover:text-foreground transition-colors"

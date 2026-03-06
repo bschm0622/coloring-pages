@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
 import Breadcrumb from "@/components/starwind/breadcrumb/Breadcrumb.astro";
 import BreadcrumbList from "@/components/starwind/breadcrumb/BreadcrumbList.astro";
 import BreadcrumbItem from "@/components/starwind/breadcrumb/BreadcrumbItem.astro";
@@ -16,7 +17,6 @@ import EmailPopup from "@/components/EmailPopup.astro";
 
 export async function getStaticPaths() {
   const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
-  // All pages without "/" in their slug are hub pages (from topic/index.md files)
   const hubPages = allPages.filter((p) => !p.slug.includes("/"));
 
   return await Promise.all(
@@ -25,26 +25,106 @@ export async function getStaticPaths() {
       const variants = allPages
         .filter((p) => p.slug.startsWith(topic + "/"))
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+      const suggestedHubs = hubPages
+        .filter((h) => h.slug !== topic)
+        .slice(0, 4);
       const { Content } = await page.render();
       return {
         params: { topic },
-        props: { page, variants, Content },
+        props: { page, variants, Content, suggestedHubs },
       };
     })
   );
 }
 
-const { page, variants, Content } = Astro.props;
+const { page, variants, Content, suggestedHubs } = Astro.props;
 const { data } = page;
+const topic = page.slug;
 
 const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
   easy: "success",
   medium: "warning",
   hard: "error",
 };
+
+const pageUrl = `${siteConfig.url}/coloring-pages/${topic}`;
+const imageUrl = `${siteConfig.url}${data.imageUrl}`;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Coloring Pages", item: `${siteConfig.url}/` },
+    { "@type": "ListItem", position: 2, name: data.title },
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: `Are ${data.title} free to download?`,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: `Yes! All ${data.title} on Find Coloring Pages are completely free to download and print. No sign-up or account required.`,
+      },
+    },
+    {
+      "@type": "Question",
+      name: `Can I print ${data.title} at home?`,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: `Absolutely. Our coloring pages are formatted for standard 8.5 × 11 inch paper and print clearly on any home printer. Just download the PNG or PDF and print.`,
+      },
+    },
+    {
+      "@type": "Question",
+      name: `What age are ${data.title} designed for?`,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: `Our ${data.title} are designed for kids of all ages. Easier designs work well for toddlers and preschoolers, while more detailed pages are great for older kids and adults.`,
+      },
+    },
+  ],
+};
+
+const mainSchema =
+  variants.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: data.title,
+        description: data.description,
+        url: pageUrl,
+        image: imageUrl,
+        isAccessibleForFree: true,
+        hasPart: variants.map((v) => {
+          const [t, slug] = v.slug.split("/");
+          return {
+            "@type": "CreativeWork",
+            name: v.data.title,
+            url: `${siteConfig.url}/coloring-pages/${t}/${slug}`,
+            image: `${siteConfig.url}${v.data.imageUrl}`,
+          };
+        }),
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        name: data.title,
+        description: data.description,
+        url: pageUrl,
+        image: { "@type": "ImageObject", url: imageUrl, encodingFormat: "image/png" },
+        isAccessibleForFree: true,
+        keywords: data.tags.join(", "),
+        audience: { "@type": "Audience", audienceType: "children" },
+        datePublished: data.pubDate.toISOString(),
+      };
 ---
 
-<Page title={data.title} description={data.description} ogImage={data.imageUrl}>
+<Page title={data.title} description={data.description} ogImage={data.imageUrl} jsonLd={[mainSchema, breadcrumbSchema, faqSchema]}>
   <!-- Breadcrumb -->
   <Breadcrumb class="mb-6">
     <BreadcrumbList>
@@ -68,6 +148,7 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
             alt={data.title}
             class="mx-auto block max-h-150 w-full object-contain"
             loading="eager"
+            fetchpriority="high"
           />
         </div>
         <div class="mt-4 flex gap-3">
@@ -164,6 +245,35 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
         <Content />
       </Prose>
     </>
+  )}
+
+  <!-- Explore more subjects -->
+  {suggestedHubs.length > 0 && (
+    <section class="mt-12 border-t border-border pt-10">
+      <h2 class="heading-4 mb-6">Explore more coloring pages</h2>
+      <ul class="grid grid-cols-2 gap-4 sm:grid-cols-4" role="list">
+        {suggestedHubs.map((hub) => (
+          <li>
+            <a href={`/coloring-pages/${hub.slug}`} class="group block">
+              <Card class="overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+                <img
+                  src={hub.data.imageUrl}
+                  alt={hub.data.title}
+                  class="h-32 w-full object-contain bg-muted p-2 transition-transform group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <CardContent>
+                  <p class="text-xs font-medium text-card-foreground line-clamp-2">
+                    {hub.data.title}
+                  </p>
+                </CardContent>
+              </Card>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   )}
 
   <EmailPopup />

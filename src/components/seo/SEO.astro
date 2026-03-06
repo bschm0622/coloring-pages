@@ -9,6 +9,7 @@ interface Props {
   updatedDate?: Date;
   type?: "website" | "article";
   noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
@@ -19,13 +20,14 @@ const {
   updatedDate,
   type = "website",
   noindex = false,
+  jsonLd,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, siteConfig.url);
 const ogImageURL = new URL(ogImage, siteConfig.url);
 const pageTitle = `${title} | ${siteConfig.name}`;
 
-const jsonLd =
+const defaultSchema =
   type === "article"
     ? {
         "@context": "https://schema.org",
@@ -52,13 +54,19 @@ const jsonLd =
         url: siteConfig.url,
         description: siteConfig.description,
       };
+
+const schemas: Record<string, unknown>[] = jsonLd
+  ? Array.isArray(jsonLd)
+    ? jsonLd
+    : [jsonLd]
+  : [defaultSchema];
 ---
 
 <!-- Primary -->
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta name="robots" content={noindex ? "noindex, nofollow" : "max-image-preview:large"} />
 
 <!-- Open Graph -->
 <meta property="og:type" content={type} />
@@ -66,6 +74,7 @@ const jsonLd =
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImageURL} />
+<meta property="og:image:type" content="image/png" />
 <meta property="og:site_name" content={siteConfig.name} />
 
 <!-- Twitter Card -->
@@ -82,4 +91,6 @@ const jsonLd =
 {updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
 
 <!-- JSON-LD -->
-<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

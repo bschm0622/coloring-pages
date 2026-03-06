@@ -1,6 +1,6 @@
 # Pre-Launch Checklist
 
-## 1. Formspree — Email Collection (15 min)
+## ✅ 1. Formspree — Email Collection (15 min)
 
 The email signup form (footer + popup on coloring pages) needs a real Formspree ID.
 
@@ -15,7 +15,7 @@ Free tier: 50 submissions/month. Upgrade ($10/mo) when you need more.
 
 ---
 
-## 2. OG Image — Social Sharing (30 min)
+## 2. ✅ OG Image — Social Sharing (30 min)
 
 `public/og-default.png` doesn't exist yet. This is the image that appears when
 someone shares a link on Twitter, iMessage, Slack, etc.
@@ -35,7 +35,7 @@ is only used for the homepage, blog index, about page, etc.
 
 ---
 
-## 3. Favicon (10 min)
+## ✅ 3. Favicon (10 min)
 
 Favicons exist (`public/favicon.ico` + `public/favicon.svg`) but are likely the
 default Astro logo. Replace with something on-brand — even just a simple pencil

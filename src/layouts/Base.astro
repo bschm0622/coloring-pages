@@ -10,9 +10,10 @@ interface Props {
   updatedDate?: Date;
   type?: "website" | "article";
   noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, ogImage, pubDate, updatedDate, type, noindex } =
+const { title, description, ogImage, pubDate, updatedDate, type, noindex, jsonLd } =
   Astro.props;
 ---
 
@@ -38,6 +39,7 @@ const { title, description, ogImage, pubDate, updatedDate, type, noindex } =
       updatedDate={updatedDate}
       type={type}
       noindex={noindex}
+      jsonLd={jsonLd}
     />
     <slot name="head" />
   </head>
