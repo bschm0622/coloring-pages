@@ -98,6 +98,7 @@ const FORMSPREE_ID = "xaqpwgqv";
         formView.classList.add("hidden");
         successView.classList.remove("hidden");
         localStorage.setItem(STORAGE_KEY, "1");
+        window.umami?.track("Email Subscribe", { source: "popup" });
         setTimeout(dismiss, 2500);
       }
     } catch {

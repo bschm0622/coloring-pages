@@ -66,6 +66,7 @@ const {
         if (res.ok) {
           formEl.classList.add("hidden");
           success.classList.remove("hidden");
+          window.umami?.track("Email Subscribe", { source: "footer" });
         }
       } catch {
         // silently fail

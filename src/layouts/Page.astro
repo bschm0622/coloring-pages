@@ -69,6 +69,9 @@ const currentPath = Astro.url.pathname;
                   <a
                     href={`/coloring-pages/${hub.slug}`}
                     class="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                    data-umami-event="Category Click"
+                    data-umami-event-category={hub.slug}
+                    data-umami-event-source="nav"
                   >
                     {hub.data.title.replace(" Coloring Pages", "").replace(" Coloring Page", "")}
                   </a>

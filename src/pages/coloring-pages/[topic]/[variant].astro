@@ -112,12 +112,12 @@ const jsonLd = [
 
       <!-- Download buttons -->
       <div class="mt-4 flex gap-3">
-        <Button href={data.imageUrl} download variant="primary" class="flex-1 justify-center">
+        <Button href={data.imageUrl} download variant="primary" class="flex-1 justify-center" data-umami-event="Download PNG" data-umami-event-title={data.title} data-umami-event-topic={topic}>
           Download PNG
         </Button>
         {
           data.pdfUrl && (
-            <Button href={data.pdfUrl} download variant="outline" class="flex-1 justify-center">
+            <Button href={data.pdfUrl} download variant="outline" class="flex-1 justify-center" data-umami-event="Download PDF" data-umami-event-title={data.title} data-umami-event-topic={topic}>
               Download PDF
             </Button>
           )

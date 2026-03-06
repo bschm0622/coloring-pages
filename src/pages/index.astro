@@ -9,6 +9,10 @@ import CardTitle from "@/components/starwind/card/CardTitle.astro";
 import CardDescription from "@/components/starwind/card/CardDescription.astro";
 import Badge from "@/components/starwind/badge/Badge.astro";
 import Button from "@/components/starwind/button/Button.astro";
+import Accordion from "@/components/starwind/accordion/Accordion.astro";
+import AccordionItem from "@/components/starwind/accordion/AccordionItem.astro";
+import AccordionTrigger from "@/components/starwind/accordion/AccordionTrigger.astro";
+import AccordionContent from "@/components/starwind/accordion/AccordionContent.astro";
 
 const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
 const blogPosts = (await getCollection("blog", ({ data }) => !data.draft))
@@ -35,9 +39,54 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
   medium: "warning",
   hard: "error",
 };
+
+const faqs = [
+  {
+    q: "Are these coloring pages really free?",
+    a: "Yes, completely. Every coloring page on this site is free to download and print. No account, no email, no paywall — ever.",
+  },
+  {
+    q: "How do I print a coloring page?",
+    a: "Click the Download PNG button on any page, open the file, and print. All pages are formatted for standard 8.5 × 11 inch paper and print clearly on any home printer.",
+  },
+  {
+    q: "Can I use these in my classroom?",
+    a: "Absolutely. All coloring pages are free for personal and classroom use. Print as many copies as you need — no permission required.",
+  },
+  {
+    q: "What age are these coloring pages designed for?",
+    a: "We have pages for all ages. Easy designs with big, simple shapes are great for toddlers and preschoolers. More detailed pages are better suited for older kids and adults. Each page is labeled with a difficulty level to help you pick the right one.",
+  },
+  {
+    q: "Do I need to create an account or sign up?",
+    a: "No. Just find a page you like, hit download, and print. We don't require an account, email address, or any personal information.",
+  },
+  {
+    q: "What file format are the coloring pages?",
+    a: "All coloring pages are PNG files. PNG works with every printer and every device, and the files are high enough resolution to print cleanly on standard paper.",
+  },
+  {
+    q: "Can I share these coloring pages?",
+    a: "Yes. You're welcome to share links to pages on this site, or print and hand out copies for personal or educational use. Please don't re-upload the files to other sites or sell them.",
+  },
+  {
+    q: "How often do you add new coloring pages?",
+    a: "We're adding new pages regularly. New pages show up automatically at the top of each subject's page. You can also join our email newsletter — signup is in the footer — to get notified when new coloring pages are added.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
 ---
 
-<Page title="Free Coloring Pages to Print" description={siteConfig.description}>
+<Page title="Free Coloring Pages to Print" description={siteConfig.description} jsonLd={faqSchema}>
 
   <!-- Hero -->
   <section class="mb-10">
@@ -57,6 +106,9 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
             href={`/coloring-pages/${hub.slug}`}
             variant="outline"
             size="sm"
+            data-umami-event="Category Click"
+            data-umami-event-category={hub.slug}
+            data-umami-event-source="homepage"
           >
             {hub.data.title.replace(" Coloring Pages", "").replace(" Coloring Page", "")}
           </Button>
@@ -97,6 +149,21 @@ const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
       ))
     }
   </ul>
+
+  <!-- FAQ -->
+  <section class="mt-16 border-t border-border pt-12">
+    <h2 class="heading-4 mb-6 text-center">Frequently asked questions</h2>
+    <Accordion type="single" class="max-w-2xl mx-auto">
+      {faqs.map(({ q, a }, i) => (
+        <AccordionItem value={`faq-${i}`}>
+          <AccordionTrigger>{q}</AccordionTrigger>
+          <AccordionContent>
+            <p class="text-sm text-muted-foreground">{a}</p>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  </section>
 
   <!-- Blog posts -->
   {
