@@ -5,7 +5,7 @@ export const siteConfig = {
     "Free printable coloring pages for kids and adults. Browse hundreds of coloring sheets by category.",
   author: {
     name: "Becky Schmidt",
-    email: "",
+    email: "findcoloringpages@gmail.com",
     twitter: "",
   },
   nav: [
@@ -15,6 +15,7 @@ export const siteConfig = {
   social: {
     twitter: "",
     github: "",
+    pinterest: "https://www.pinterest.com/findcoloringpages/",
   },
   defaultOgImage: "/og-default.png",
 } as const;

@@ -1,6 +1,7 @@
 ---
 import Page from "@/layouts/Page.astro";
 import Prose from "@/components/starwind/prose/Prose.astro";
+import { siteConfig } from "@/config/site";
 ---
 
 <Page
@@ -43,6 +44,11 @@ import Prose from "@/components/starwind/prose/Prose.astro";
         We add new coloring pages regularly. If you'd like to know when new ones are
         available, you can subscribe at the bottom of this page — we'll send a short
         email when there's something new, nothing else.
+      </p>
+
+      <h2>Get in touch</h2>
+      <p>
+        Questions, suggestions, or just want to say hi? Email us at <a data-obf-user={siteConfig.author.email.split("@")[0]} data-obf-domain={siteConfig.author.email.split("@")[1]} href="#">{siteConfig.author.email}</a>.
       </p>
     </Prose>
   </div>
