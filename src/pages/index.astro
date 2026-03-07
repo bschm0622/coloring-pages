@@ -121,9 +121,9 @@ const faqSchema = {
   <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
     {
       gridPages.map((page) => (
-        <li>
-          <a href={`/coloring-pages/${page.slug}`} class="group block">
-            <Card class="overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+        <li class="flex">
+          <a href={`/coloring-pages/${page.slug}`} class="group flex h-full w-full flex-col">
+            <Card class="flex h-full flex-col overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
               <img
                 src={page.data.imageUrl}
                 alt={page.data.title}
@@ -131,7 +131,7 @@ const faqSchema = {
                 loading="lazy"
                 decoding="async"
               />
-              <CardContent class="flex flex-col gap-2">
+              <CardContent class="flex flex-1 flex-col gap-2">
                 <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
                   {page.data.title}
                 </p>

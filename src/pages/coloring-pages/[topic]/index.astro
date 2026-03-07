@@ -206,6 +206,9 @@ const mainSchema =
       <div class="mb-8">
         <h1 class="heading-2">{data.title}</h1>
         <p class="text-lead mt-2">{data.description}</p>
+        <Prose class="max-w-none mt-4">
+          <Content />
+        </Prose>
       </div>
       <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 mb-12" role="list">
         {variants.map((variant) => {
@@ -241,9 +244,6 @@ const mainSchema =
           );
         })}
       </ul>
-      <Prose class="max-w-none">
-        <Content />
-      </Prose>
     </>
   )}
 

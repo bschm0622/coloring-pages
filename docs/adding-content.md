@@ -99,25 +99,6 @@ If you already have `puppy/` and add a new image `puppy-baby.png`:
 
 ---
 
-## Current subjects
-
-| URL | Hub file | Variants |
-|---|---|---|
-| `/coloring-pages/axolotl` | `axolotl/index.md` | `cute` |
-| `/coloring-pages/baby-lamb` | `baby-lamb/index.md` | none |
-| `/coloring-pages/bunny` | `bunny/index.md` | `cute`, `realistic` |
-| `/coloring-pages/dragon` | `dragon/index.md` | `cute`, `realistic` |
-| `/coloring-pages/duck` | `duck/index.md` | none |
-| `/coloring-pages/easter` | `easter/index.md` | `easter-bunny`, `easter-egg` |
-| `/coloring-pages/lioness` | `lioness/index.md` | none |
-| `/coloring-pages/penguin` | `penguin/index.md` | none |
-| `/coloring-pages/pug` | `pug/index.md` | none |
-| `/coloring-pages/puppy` | `puppy/index.md` | `cute`, `playful` |
-| `/coloring-pages/t-rex` | `t-rex/index.md` | none |
-| `/coloring-pages/unicorn` | `unicorn/index.md` | `plain`, `rainbow` |
-
----
-
 ## Common mistakes
 
 **Image not showing:** Check that `imageUrl` exactly matches the filename in `public/coloring-pages/`. Case matters.
