@@ -1,6 +1,6 @@
 ---
 title: "Duck Coloring Pages"
-description: "A cute duck coloring page with simple lines, ideal for toddlers and young children. Print and color for free."
+description: "Free printable duck coloring pages for kids. Simple and cute duck designs, perfect for toddlers and young children."
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/duck-cute.png"
@@ -8,6 +8,6 @@ tags: ["duck", "animals", "birds", "pond"]
 draft: false
 ---
 
-This duck coloring page is one of the simplest on the site — intentionally so. The body is one large rounded shape with a clear bill and eye, making it ideal for toddlers who are just getting comfortable holding crayons. No tiny wing feathers, no detailed feet.
+Ducks are a natural fit for young colorists — simple rounded shapes, a bright bill, and no complicated details to worry about. These duck coloring pages are designed to be easy enough for toddlers while still being satisfying to finish.
 
-Yellow is the obvious choice, but orange, green, or a patchwork of colors all look great. Print a few copies and let kids experiment.
+Pick one below and download for free.

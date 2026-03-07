@@ -1,6 +1,6 @@
 ---
 title: "Pug Coloring Pages"
-description: "A wrinkly, lovable pug coloring page for dog lovers. Great for kids who love pets — print and color for free."
+description: "Free printable pug coloring pages for kids. Adorable wrinkly pug designs perfect for dog lovers of all ages."
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/pug-cute.png"
@@ -8,6 +8,6 @@ tags: ["pug", "dog", "animals", "pets", "cute"]
 draft: false
 ---
 
-Pugs are a great coloring subject because their big round heads and squished faces are simple shapes that are easy to fill in. This coloring page captures that characteristic pug look without overcrowding the page with detail. Good for kids ages 4 and up, especially dog lovers.
+Pugs are endlessly charming coloring subjects — those squished faces and big round eyes translate perfectly to simple line art. These pug coloring pages are great for dog lovers, with designs that are easy to fill in and fun to personalize.
 
-Pugs are typically fawn or black — fawn is a warm tan/beige that's easy to mix with crayons. Don't forget the darker muzzle area and the little curly tail.
+Pick one below and download for free.
