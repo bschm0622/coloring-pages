@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import Card from "@/components/starwind/card/Card.astro";
+import CardContent from "@/components/starwind/card/CardContent.astro";
+import Badge from "@/components/starwind/badge/Badge.astro";
+
+
+const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+const hubPages = allPages.filter((p) => !p.slug.includes("/"));
+
+const packs = hubPages
+  .map((hub) => {
+    const variants = allPages.filter((p) => p.slug.startsWith(hub.slug + "/"));
+    return { hub, count: variants.length };
+  })
+  .filter(({ count }) => count > 0)
+  .sort((a, b) => b.count - a.count);
+---
+
+<Page
+  title="Free Printable Coloring Page Packs"
+  description="Download free printable coloring page packs — each pack includes multiple coloring sheets you can print at home or in the classroom."
+>
+  <div class="mb-6">
+    <h1 class="heading-2">Free Coloring Page Packs</h1>
+    <p class="text-lead mt-2">
+      Each pack includes multiple printable coloring pages on a single theme — perfect for printing at home or in the classroom.
+    </p>
+  </div>
+
+  <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 mb-12" role="list">
+    {packs.map(({ hub, count }) => (
+      <li>
+        <a href={`/coloring-pages/${hub.slug}`} class="group block h-full">
+          <Card class="overflow-hidden transition-shadow group-hover:shadow-md h-full flex flex-col" size="sm">
+            <img
+              src={hub.data.imageUrl}
+              alt={hub.data.title}
+              class="h-48 w-full object-contain bg-muted p-3 transition-transform group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
+            <CardContent class="flex flex-col gap-1">
+              <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
+                {hub.data.title}
+              </p>
+              <p class="text-xs text-muted-foreground">{count} pages</p>
+            </CardContent>
+          </Card>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Page>

@@ -4,6 +4,7 @@ description: "Free printable Easter coloring pages for kids. Easter bunnies, dec
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/easter-bunny.png"
+pdfUrl: "/coloring-pages/easter-pack.pdf"
 tags: ["easter", "holiday", "spring", "bunny", "eggs"]
 draft: false
 ---

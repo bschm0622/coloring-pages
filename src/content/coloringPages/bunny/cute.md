@@ -4,6 +4,7 @@ description: "An adorable cute bunny coloring page for kids. Big eyes, fluffy ta
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/bunny-cute.png"
+pdfUrl: "/coloring-pages/bunny-cute.pdf"
 tags: ["bunny", "rabbit", "animals", "cute"]
 draft: false
 ---

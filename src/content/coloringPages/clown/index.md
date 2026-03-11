@@ -4,6 +4,7 @@ description: "Free printable clown coloring pages for kids. A cute clown and a c
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/clown-cute.png"
+pdfUrl: "/coloring-pages/clown-pack.pdf"
 tags: ["clown", "circus", "funny", "kids", "cartoon"]
 draft: false
 ---

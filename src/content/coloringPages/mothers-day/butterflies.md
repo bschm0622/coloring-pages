@@ -4,6 +4,7 @@ description: "A beautiful Mother's Day coloring page with butterflies. A detaile
 pubDate: 2026-03-06
 difficulty: "easy"
 imageUrl: "/coloring-pages/happy-mothers-day-butterflies.png"
+pdfUrl: "/coloring-pages/happy-mothers-day-butterflies.pdf"
 tags: ["mothers day", "butterflies", "holiday", "gift", "spring", "flowers"]
 draft: false
 ---

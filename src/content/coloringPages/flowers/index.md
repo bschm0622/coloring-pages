@@ -4,6 +4,7 @@ description: "Free printable flower coloring pages for kids and adults. A simple
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/flower-bouquet.png"
+pdfUrl: "/coloring-pages/flowers-pack.pdf"
 tags: ["flowers", "nature", "garden", "spring", "plants"]
 draft: false
 ---

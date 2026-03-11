@@ -4,6 +4,7 @@ description: "Free printable dragon coloring pages for kids. Choose from a cute 
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/dragon-cute.png"
+pdfUrl: "/coloring-pages/dragon-pack.pdf"
 tags: ["dragon", "fantasy", "cute", "fire", "magic"]
 draft: false
 ---

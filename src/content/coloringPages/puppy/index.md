@@ -4,6 +4,7 @@ description: "Free printable puppy coloring pages for kids. Simple, cute designs
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/puppy-cute.png"
+pdfUrl: "/coloring-pages/puppy-pack.pdf"
 tags: ["puppy", "dog", "animals", "pets", "cute"]
 draft: false
 ---

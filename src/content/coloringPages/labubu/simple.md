@@ -4,6 +4,7 @@ description: "A simple Labubu coloring page featuring the popular fuzzy monster 
 pubDate: 2026-03-07
 difficulty: "easy"
 imageUrl: "/coloring-pages/labubu-simple.png"
+pdfUrl: "/coloring-pages/labubu-simple.pdf"
 tags: ["labubu", "pop mart", "toys", "cute", "monster", "kawaii"]
 draft: false
 ---

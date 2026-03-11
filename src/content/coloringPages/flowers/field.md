@@ -4,6 +4,7 @@ description: "A free printable flower field coloring page. A full scene with flo
 pubDate: 2026-03-05
 difficulty: "medium"
 imageUrl: "/coloring-pages/flower-field.png"
+pdfUrl: "/coloring-pages/flower-field.pdf"
 tags: ["flowers", "field", "nature", "garden", "spring", "landscape"]
 draft: false
 ---

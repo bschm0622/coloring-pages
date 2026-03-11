@@ -4,6 +4,7 @@ description: "Free printable starfish coloring pages for kids. A cute cartoon st
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/starfish-cute.png"
+pdfUrl: "/coloring-pages/starfish-pack.pdf"
 tags: ["starfish", "ocean", "sea", "underwater", "beach", "animals"]
 draft: false
 ---

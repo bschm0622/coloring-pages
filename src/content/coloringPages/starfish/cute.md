@@ -4,6 +4,7 @@ description: "A free printable cute starfish coloring page. A friendly cartoon s
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/starfish-cute.png"
+pdfUrl: "/coloring-pages/starfish-cute.pdf"
 tags: ["starfish", "ocean", "sea", "cute", "beach", "animals", "toddler"]
 draft: false
 ---

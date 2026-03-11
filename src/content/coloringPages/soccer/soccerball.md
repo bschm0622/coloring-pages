@@ -4,6 +4,7 @@ description: "A free printable soccer ball coloring page. The classic black and 
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/soccerball.png"
+pdfUrl: "/coloring-pages/soccerball.pdf"
 tags: ["soccer", "sports", "soccer ball", "football", "kids"]
 draft: false
 ---

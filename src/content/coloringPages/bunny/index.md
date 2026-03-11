@@ -4,6 +4,7 @@ description: "Free printable bunny coloring pages for kids. Cute and realistic b
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/bunny-cute.png"
+pdfUrl: "/coloring-pages/bunny-pack.pdf"
 tags: ["bunny", "rabbit", "animals", "cute"]
 draft: false
 ---

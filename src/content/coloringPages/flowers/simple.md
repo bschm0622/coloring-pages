@@ -4,6 +4,7 @@ description: "A free printable simple flower coloring page. Big, bold petals and
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/flower-simple.png"
+pdfUrl: "/coloring-pages/flower-simple.pdf"
 tags: ["flowers", "nature", "simple", "easy", "spring", "toddler"]
 draft: false
 ---

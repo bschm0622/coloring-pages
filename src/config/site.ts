@@ -9,6 +9,7 @@ export const siteConfig = {
     twitter: "",
   },
   nav: [
+    { label: "Packs", href: "/packs" },
     { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
   ],

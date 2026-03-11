@@ -4,6 +4,7 @@ description: "A free printable police officer coloring page. A friendly officer 
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/police-officer.png"
+pdfUrl: "/coloring-pages/police-officer.pdf"
 tags: ["police", "community helpers", "officer", "uniform", "kids", "careers"]
 draft: false
 ---

@@ -4,6 +4,7 @@ description: "A tender Mother's Day coloring page featuring a mom and baby. A be
 pubDate: 2026-03-06
 difficulty: "easy"
 imageUrl: "/coloring-pages/mothers-day-mom-and-baby.png"
+pdfUrl: "/coloring-pages/mothers-day-mom-and-baby.pdf"
 tags: ["mothers day", "holiday", "gift", "spring", "family"]
 draft: false
 ---

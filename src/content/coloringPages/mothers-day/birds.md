@@ -4,6 +4,7 @@ description: "A sweet Mother's Day coloring page featuring birds. A lovely gift 
 pubDate: 2026-03-06
 difficulty: "easy"
 imageUrl: "/coloring-pages/mothers-day-birds.png"
+pdfUrl: "/coloring-pages/mothers-day-birds.pdf"
 tags: ["mothers day", "birds", "holiday", "gift", "spring"]
 draft: false
 ---

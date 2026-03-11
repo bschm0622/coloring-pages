@@ -4,6 +4,7 @@ description: "A free printable soccer boy coloring page. A young player ready to
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/soccer-boy.png"
+pdfUrl: "/coloring-pages/soccer-boy.pdf"
 tags: ["soccer", "sports", "boy", "football", "kids", "outdoor"]
 draft: false
 ---

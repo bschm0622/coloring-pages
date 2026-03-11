@@ -4,6 +4,7 @@ description: "A super cute puppy coloring page for kids. Big eyes, round face, a
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/puppy-cute.png"
+pdfUrl: "/coloring-pages/puppy-cute.pdf"
 tags: ["puppy", "dog", "animals", "pets", "cute"]
 draft: false
 ---

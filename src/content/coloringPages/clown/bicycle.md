@@ -4,6 +4,7 @@ description: "A free printable clown on a bicycle coloring page. A silly clown r
 pubDate: 2026-03-05
 difficulty: "medium"
 imageUrl: "/coloring-pages/clown-bicycle.png"
+pdfUrl: "/coloring-pages/clown-bicycle.pdf"
 tags: ["clown", "circus", "bicycle", "funny", "kids", "cartoon"]
 draft: false
 ---

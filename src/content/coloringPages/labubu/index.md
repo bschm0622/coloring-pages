@@ -4,6 +4,7 @@ description: "Free printable Labubu coloring pages. Color the popular fuzzy mons
 pubDate: 2026-03-07
 difficulty: "easy"
 imageUrl: "/coloring-pages/labubu-simple.png"
+pdfUrl: "/coloring-pages/labubu-pack.pdf"
 tags: ["labubu", "pop mart", "toys", "cute", "monster", "kawaii"]
 draft: false
 ---

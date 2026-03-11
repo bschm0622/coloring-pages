@@ -4,6 +4,7 @@ description: "Free printable soccer coloring pages for kids. Color a soccer ball
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/soccer-boy.png"
+pdfUrl: "/coloring-pages/soccer-pack.pdf"
 tags: ["soccer", "sports", "football", "kids", "outdoor"]
 draft: false
 ---

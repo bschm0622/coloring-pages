@@ -4,6 +4,7 @@ description: "A sweet Mother's Day coloring page with an 'I Love You Mom' messag
 pubDate: 2026-03-06
 difficulty: "medium"
 imageUrl: "/coloring-pages/mothers-day-I-love-you-mom.png"
+pdfUrl: "/coloring-pages/mothers-day-I-love-you-mom.pdf"
 tags: ["mothers day", "holiday", "gift", "spring", "love"]
 draft: false
 ---

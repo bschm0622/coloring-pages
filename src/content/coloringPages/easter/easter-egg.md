@@ -4,6 +4,7 @@ description: "A decorative Easter egg coloring page with fun patterns to fill in
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/easter-egg.png"
+pdfUrl: "/coloring-pages/easter-egg.pdf"
 tags: ["easter", "egg", "holiday", "spring", "patterns"]
 draft: false
 ---

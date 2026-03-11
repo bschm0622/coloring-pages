@@ -4,6 +4,7 @@ description: "A fun Mother's Day coloring page with a 'You're the Best Mom' mess
 pubDate: 2026-03-06
 difficulty: "medium"
 imageUrl: "/coloring-pages/mothers-day-youre-the-best-mom.png"
+pdfUrl: "/coloring-pages/mothers-day-youre-the-best-mom.pdf"
 tags: ["mothers day", "holiday", "gift", "spring", "love"]
 draft: false
 ---

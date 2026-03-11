@@ -4,6 +4,7 @@ description: "A magical rainbow unicorn coloring page for kids. Unicorn with a r
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/unicorn-rainbow.png"
+pdfUrl: "/coloring-pages/unicorn-rainbow.pdf"
 tags: ["unicorn", "rainbow", "fantasy", "magic", "cute", "colorful"]
 draft: false
 ---

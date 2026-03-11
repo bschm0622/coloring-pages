@@ -4,6 +4,7 @@ description: "A wrinkly, lovable pug coloring page for dog lovers. Great for kid
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/pug-cute.png"
+pdfUrl: "/coloring-pages/pug-cute.pdf"
 tags: ["pug", "dog", "animals", "pets", "cute"]
 draft: false
 ---

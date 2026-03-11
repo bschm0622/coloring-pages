@@ -4,6 +4,7 @@ description: "A cute Mother's Day coloring page featuring a kitten with a heart 
 pubDate: 2026-03-06
 difficulty: "easy"
 imageUrl: "/coloring-pages/mothers-day-kitten.png"
+pdfUrl: "/coloring-pages/mothers-day-kitten.pdf"
 tags: ["mothers day", "kitten", "cat", "holiday", "gift", "spring"]
 draft: false
 ---

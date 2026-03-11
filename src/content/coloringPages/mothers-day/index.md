@@ -4,6 +4,7 @@ description: "Free printable Mother's Day coloring pages for kids. Sweet designs
 pubDate: 2026-03-06
 difficulty: "easy"
 imageUrl: "/coloring-pages/mothers-day-bears.png"
+pdfUrl: "/coloring-pages/mothers-day-pack.pdf"
 tags: ["mothers day", "holiday", "gift", "spring", "kids"]
 draft: false
 ---

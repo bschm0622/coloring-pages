@@ -4,6 +4,7 @@ description: "A cute Mother's Day coloring page featuring a puppy with a heart b
 pubDate: 2026-03-06
 difficulty: "easy"
 imageUrl: "/coloring-pages/mothers-day-puppy.png"
+pdfUrl: "/coloring-pages/mothers-day-puppy.pdf"
 tags: ["mothers day", "puppy", "dog", "holiday", "gift", "spring"]
 draft: false
 ---

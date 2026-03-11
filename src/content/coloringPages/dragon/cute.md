@@ -4,6 +4,7 @@ description: "A cute dragon coloring page for kids. Friendly face, round body, a
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/dragon-cute.png"
+pdfUrl: "/coloring-pages/dragon-cute.pdf"
 tags: ["dragon", "fantasy", "cute", "magic"]
 draft: false
 ---

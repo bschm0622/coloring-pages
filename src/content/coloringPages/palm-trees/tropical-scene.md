@@ -4,6 +4,7 @@ description: "A free printable palm trees coloring page. A tropical scene with m
 pubDate: 2026-03-05
 difficulty: "medium"
 imageUrl: "/coloring-pages/palm-trees.png"
+pdfUrl: "/coloring-pages/palm-trees.pdf"
 tags: ["palm tree", "tropical", "beach", "summer", "nature", "plants", "landscape"]
 draft: false
 ---

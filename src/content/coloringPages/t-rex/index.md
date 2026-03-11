@@ -4,6 +4,7 @@ description: "Free printable T-Rex coloring pages for kids. Fun dinosaur designs
 pubDate: 2026-03-04
 difficulty: "medium"
 imageUrl: "/coloring-pages/t-rex-cute.png"
+pdfUrl: "/coloring-pages/t-rex-pack.pdf"
 tags: ["t-rex", "dinosaur", "prehistoric", "jurassic"]
 draft: false
 ---

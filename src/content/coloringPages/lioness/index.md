@@ -4,6 +4,7 @@ description: "Free printable lioness coloring pages for kids. Majestic big cat d
 pubDate: 2026-03-04
 difficulty: "medium"
 imageUrl: "/coloring-pages/lioness-cute.png"
+pdfUrl: "/coloring-pages/lioness-pack.pdf"
 tags: ["lion", "lioness", "animals", "wildlife", "africa", "big cats"]
 draft: false
 ---

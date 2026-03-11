@@ -4,6 +4,7 @@ description: "A classic unicorn coloring page for kids. Clean lines, flowing man
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/unicorn-plain.png"
+pdfUrl: "/coloring-pages/unicorn-plain.pdf"
 tags: ["unicorn", "fantasy", "magic", "cute"]
 draft: false
 ---

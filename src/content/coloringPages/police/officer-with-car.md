@@ -4,6 +4,7 @@ description: "A free printable police officer with patrol car coloring page. An 
 pubDate: 2026-03-05
 difficulty: "medium"
 imageUrl: "/coloring-pages/police-officer-with-car.png"
+pdfUrl: "/coloring-pages/police-officer-with-car.pdf"
 tags: ["police", "community helpers", "patrol car", "police car", "officer", "kids", "careers"]
 draft: false
 ---

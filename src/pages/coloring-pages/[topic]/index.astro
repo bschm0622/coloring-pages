@@ -152,12 +152,18 @@ const mainSchema =
           />
         </div>
         <div class="mt-4 flex gap-3">
-          <Button href={data.imageUrl} download variant="primary" class="flex-1 justify-center">
-            Download PNG
-          </Button>
-          {data.pdfUrl && (
-            <Button href={data.pdfUrl} download variant="outline" class="flex-1 justify-center">
-              Download PDF
+          {data.pdfUrl ? (
+            <>
+              <Button href={data.pdfUrl} download variant="primary" class="flex-1 justify-center">
+                Download PDF
+              </Button>
+              <Button href={data.imageUrl} download variant="outline" class="flex-1 justify-center">
+                Download PNG
+              </Button>
+            </>
+          ) : (
+            <Button href={data.imageUrl} download variant="primary" class="flex-1 justify-center">
+              Download PNG
             </Button>
           )}
         </div>
@@ -203,13 +209,32 @@ const mainSchema =
   ) : (
     /* Multiple variants — show gallery */
     <>
-      <div class="mb-8">
-        <h1 class="heading-2">{data.title}</h1>
-        <p class="text-lead mt-2">{data.description}</p>
-        <Prose class="max-w-none mt-4">
+      <div class="mb-10">
+        <div class="mb-4">
+          <h1 class="heading-2 mb-2">{data.title}</h1>
+          <p class="text-lead">{data.description}</p>
+        </div>
+        <Prose class="max-w-none">
           <Content />
         </Prose>
       </div>
+
+      {data.pdfUrl && (
+        <div class="mb-8 rounded-lg border border-primary/20 bg-primary/5 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p class="font-semibold text-foreground">Print them all at once!</p>
+            <p class="text-sm text-muted-foreground mt-0.5">
+              All {variants.length} coloring pages in a single, printer-friendly PDF.
+            </p>
+          </div>
+          <div class="shrink-0">
+            <Button href={data.pdfUrl} download variant="primary" data-umami-event="Download Pack PDF" data-umami-event-topic={topic}>
+              Download PDF Pack
+            </Button>
+          </div>
+        </div>
+      )}
+
       <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 mb-12" role="list">
         {variants.map((variant) => {
           const [topic, variantSlug] = variant.slug.split("/");
@@ -273,6 +298,7 @@ const mainSchema =
           </li>
         ))}
       </ul>
+
     </section>
   )}
 

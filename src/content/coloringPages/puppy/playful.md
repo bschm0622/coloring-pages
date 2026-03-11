@@ -4,6 +4,7 @@ description: "A playful puppy coloring page showing an energetic pup in a fun po
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/puppy-playful.png"
+pdfUrl: "/coloring-pages/puppy-playful.pdf"
 tags: ["puppy", "dog", "animals", "pets", "playful", "cute"]
 draft: false
 ---

@@ -4,6 +4,7 @@ description: "A cute axolotl coloring page for kids. Features the iconic feather
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/axolotl-cute.png"
+pdfUrl: "/coloring-pages/axolotl-cute.pdf"
 tags: ["axolotl", "salamander", "animals", "cute", "underwater"]
 draft: false
 ---

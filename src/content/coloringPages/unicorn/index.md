@@ -4,6 +4,7 @@ description: "Free printable unicorn coloring pages for kids. Simple and rainbow
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/unicorn-rainbow.png"
+pdfUrl: "/coloring-pages/unicorn-pack.pdf"
 tags: ["unicorn", "fantasy", "magic", "rainbow", "cute"]
 draft: false
 ---

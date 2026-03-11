@@ -4,6 +4,7 @@ description: "A fun coloring page with three unicorns playing in a sunny meadow.
 pubDate: 2026-03-07
 difficulty: "medium"
 imageUrl: "/coloring-pages/unicorns-playing.png"
+pdfUrl: "/coloring-pages/unicorns-playing.pdf"
 tags: ["unicorn", "fantasy", "cute", "nature", "flowers", "sun"]
 draft: false
 ---

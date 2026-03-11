@@ -4,6 +4,7 @@ description: "A cute Labubu coloring page with the character holding a giant ice
 pubDate: 2026-03-07
 difficulty: "medium"
 imageUrl: "/coloring-pages/labubu-ice-cream.png"
+pdfUrl: "/coloring-pages/labubu-ice-cream.pdf"
 tags: ["labubu", "pop mart", "toys", "cute", "monster", "kawaii", "ice cream"]
 draft: false
 ---

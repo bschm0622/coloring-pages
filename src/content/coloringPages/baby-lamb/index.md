@@ -4,6 +4,7 @@ description: "Free printable baby lamb coloring pages for kids. Sweet and simple
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/baby-lamb.png"
+pdfUrl: "/coloring-pages/baby-lamb-pack.pdf"
 tags: ["lamb", "baby", "animals", "farm", "spring"]
 draft: false
 ---

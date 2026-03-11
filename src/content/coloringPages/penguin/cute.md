@@ -4,6 +4,7 @@ description: "An endearing penguin coloring page for kids. Simple and fun to col
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/penguin-cute.png"
+pdfUrl: "/coloring-pages/penguin-cute.pdf"
 tags: ["penguin", "animals", "arctic", "winter", "birds"]
 draft: false
 ---

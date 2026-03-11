@@ -4,6 +4,7 @@ description: "A free printable soccer girl coloring page. A young girl player wi
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/soccer-girl.png"
+pdfUrl: "/coloring-pages/soccer-girl.pdf"
 tags: ["soccer", "sports", "girl", "football", "kids", "outdoor"]
 draft: false
 ---

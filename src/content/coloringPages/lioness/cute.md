@@ -4,6 +4,7 @@ description: "A majestic lioness coloring page with detailed features. A great c
 pubDate: 2026-03-04
 difficulty: "medium"
 imageUrl: "/coloring-pages/lioness-cute.png"
+pdfUrl: "/coloring-pages/lioness-cute.pdf"
 tags: ["lion", "lioness", "animals", "wildlife", "africa", "big cats"]
 draft: false
 ---

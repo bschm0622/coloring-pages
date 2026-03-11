@@ -4,6 +4,7 @@ description: "A fun Easter Bunny coloring page for kids. Perfect for Easter bask
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/easter-bunny.png"
+pdfUrl: "/coloring-pages/easter-bunny.pdf"
 tags: ["easter", "bunny", "rabbit", "holiday", "spring"]
 draft: false
 ---

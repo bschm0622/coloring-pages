@@ -4,6 +4,7 @@ description: "A free printable flower bouquet coloring page. Multiple blooms bun
 pubDate: 2026-03-05
 difficulty: "medium"
 imageUrl: "/coloring-pages/flower-bouquet.png"
+pdfUrl: "/coloring-pages/flower-bouquet.pdf"
 tags: ["flowers", "bouquet", "nature", "garden", "spring"]
 draft: false
 ---

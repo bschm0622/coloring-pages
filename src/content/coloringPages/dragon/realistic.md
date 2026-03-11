@@ -4,6 +4,7 @@ description: "A detailed realistic dragon coloring page for older kids and adult
 pubDate: 2026-03-05
 difficulty: "hard"
 imageUrl: "/coloring-pages/dragon-realistic.png"
+pdfUrl: "/coloring-pages/dragon-realistic.pdf"
 tags: ["dragon", "fantasy", "realistic", "detailed", "advanced"]
 draft: false
 ---

@@ -4,6 +4,7 @@ description: "Free printable palm tree coloring pages for kids and adults. A sin
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/palm-trees.png"
+pdfUrl: "/coloring-pages/palm-trees-pack.pdf"
 tags: ["palm tree", "tropical", "beach", "summer", "nature", "plants"]
 draft: false
 ---

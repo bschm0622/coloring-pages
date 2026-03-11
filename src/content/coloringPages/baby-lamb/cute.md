@@ -4,6 +4,7 @@ description: "A sweet baby lamb coloring page perfect for young kids. Simple lin
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/baby-lamb.png"
+pdfUrl: "/coloring-pages/baby-lamb.pdf"
 tags: ["lamb", "baby", "animals", "farm", "spring"]
 draft: false
 ---

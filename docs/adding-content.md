@@ -72,6 +72,18 @@ Write a short paragraph about this specific variant here.
 
 That's it. The hub appears in the site nav automatically. Variants appear in the hub gallery.
 
+### Step 4 — Generate PDFs
+
+After adding any new content, run:
+
+```
+node scripts/generate-pdfs.mjs
+```
+
+This creates a single-page PDF for every coloring page and a multi-page pack PDF for every hub that has variants. It also updates `pdfUrl` in every frontmatter file automatically and deletes any orphaned PDFs left over from removed content.
+
+You never need to set `pdfUrl` by hand.
+
 ---
 
 ## Adding a variant to an existing subject
@@ -80,7 +92,8 @@ If you already have `puppy/` and add a new image `puppy-baby.png`:
 
 1. Drop `puppy-baby.png` in `public/coloring-pages/`
 2. Create `src/content/coloringPages/puppy/baby.md`
-3. Done — it appears at `/coloring-pages/puppy/baby` and in the puppy hub gallery
+3. Run `node scripts/generate-pdfs.mjs`
+4. Done — it appears at `/coloring-pages/puppy/baby`, in the puppy hub gallery, and in the updated pack PDF
 
 ---
 
@@ -95,7 +108,7 @@ If you already have `puppy/` and add a new image `puppy-baby.png`:
 | `imageUrl` | Yes | Path to image: `/coloring-pages/filename.png` |
 | `tags` | Yes | Array of keywords: `["cat", "animals", "cute"]` |
 | `draft` | Yes | `false` to publish, `true` to hide |
-| `pdfUrl` | No | Path to PDF version if you have one |
+| `pdfUrl` | No | Set automatically by `generate-pdfs.mjs` — do not set by hand |
 
 ---
 

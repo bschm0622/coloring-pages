@@ -4,6 +4,7 @@ description: "Free printable duck coloring pages for kids. Simple and cute duck 
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/duck-cute.png"
+pdfUrl: "/coloring-pages/duck-pack.pdf"
 tags: ["duck", "animals", "birds", "pond"]
 draft: false
 ---

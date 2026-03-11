@@ -4,6 +4,7 @@ description: "A more detailed realistic bunny coloring page. Great for older kid
 pubDate: 2026-03-05
 difficulty: "medium"
 imageUrl: "/coloring-pages/bunny-realistic.png"
+pdfUrl: "/coloring-pages/bunny-realistic.pdf"
 tags: ["bunny", "rabbit", "animals", "realistic", "detailed"]
 draft: false
 ---

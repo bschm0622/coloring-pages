@@ -4,6 +4,7 @@ description: "A simple Mother's Day coloring page with a flower and 'I Love You'
 pubDate: 2026-03-06
 difficulty: "easy"
 imageUrl: "/coloring-pages/mothers-day-simple-flower.png"
+pdfUrl: "/coloring-pages/mothers-day-simple-flower.pdf"
 tags: ["mothers day", "flowers", "holiday", "gift", "spring", "toddler"]
 draft: false
 ---

@@ -4,6 +4,7 @@ description: "Free printable police coloring pages for kids. A police officer an
 pubDate: 2026-03-05
 difficulty: "easy"
 imageUrl: "/coloring-pages/police-officer.png"
+pdfUrl: "/coloring-pages/police-pack.pdf"
 tags: ["police", "community helpers", "officer", "kids", "careers"]
 draft: false
 ---

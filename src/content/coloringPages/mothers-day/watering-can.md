@@ -4,6 +4,7 @@ description: "A charming Mother's Day coloring page with a watering can and flow
 pubDate: 2026-03-06
 difficulty: "hard"
 imageUrl: "/coloring-pages/mothers-day-watering-can.png"
+pdfUrl: "/coloring-pages/mothers-day-watering-can.pdf"
 tags: ["mothers day", "flowers", "garden", "holiday", "gift", "spring"]
 draft: false
 ---

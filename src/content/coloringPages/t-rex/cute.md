@@ -4,6 +4,7 @@ description: "A roaring T-Rex coloring page for dinosaur fans. More detail than 
 pubDate: 2026-03-04
 difficulty: "medium"
 imageUrl: "/coloring-pages/t-rex-cute.png"
+pdfUrl: "/coloring-pages/t-rex-cute.pdf"
 tags: ["t-rex", "dinosaur", "prehistoric", "jurassic"]
 draft: false
 ---

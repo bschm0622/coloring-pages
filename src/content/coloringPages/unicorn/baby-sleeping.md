@@ -4,6 +4,7 @@ description: "A cute baby unicorn sleeping on a cloud coloring page. Simple and 
 pubDate: 2026-03-07
 difficulty: "easy"
 imageUrl: "/coloring-pages/unicorn-baby-sleeping.png"
+pdfUrl: "/coloring-pages/unicorn-baby-sleeping.pdf"
 tags: ["unicorn", "baby", "cute", "fantasy", "cloud"]
 draft: false
 ---

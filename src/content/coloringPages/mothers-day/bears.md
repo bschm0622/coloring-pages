@@ -4,6 +4,7 @@ description: "A sweet Mother's Day coloring page featuring bears. A heartwarming
 pubDate: 2026-03-06
 difficulty: "medium"
 imageUrl: "/coloring-pages/mothers-day-bears.png"
+pdfUrl: "/coloring-pages/mothers-day-bears.pdf"
 tags: ["mothers day", "bears", "holiday", "gift", "spring"]
 draft: false
 ---

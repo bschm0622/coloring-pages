@@ -4,6 +4,7 @@ description: "Free printable pug coloring pages for kids. Adorable wrinkly pug d
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/pug-cute.png"
+pdfUrl: "/coloring-pages/pug-pack.pdf"
 tags: ["pug", "dog", "animals", "pets", "cute"]
 draft: false
 ---

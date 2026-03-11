@@ -4,6 +4,7 @@ description: "A fun Labubu coloring page with the character playing guitar in a 
 pubDate: 2026-03-07
 difficulty: "medium"
 imageUrl: "/coloring-pages/labubu-guitar.png"
+pdfUrl: "/coloring-pages/labubu-guitar.pdf"
 tags: ["labubu", "pop mart", "toys", "cute", "monster", "kawaii", "music"]
 draft: false
 ---

@@ -4,6 +4,7 @@ description: "A free printable realistic starfish coloring page. Detailed textur
 pubDate: 2026-03-05
 difficulty: "medium"
 imageUrl: "/coloring-pages/starfish-realistic.png"
+pdfUrl: "/coloring-pages/starfish-realistic.pdf"
 tags: ["starfish", "ocean", "sea", "realistic", "beach", "animals", "nature"]
 draft: false
 ---

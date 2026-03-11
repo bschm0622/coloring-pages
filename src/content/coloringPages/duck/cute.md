@@ -4,6 +4,7 @@ description: "A cute duck coloring page with simple lines, ideal for toddlers an
 pubDate: 2026-03-04
 difficulty: "easy"
 imageUrl: "/coloring-pages/duck-cute.png"
+pdfUrl: "/coloring-pages/duck-cute.pdf"
 tags: ["duck", "animals", "birds", "pond"]
 draft: false
 ---
