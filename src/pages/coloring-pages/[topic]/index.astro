@@ -154,15 +154,18 @@ const mainSchema =
         <div class="mt-4 flex gap-3">
           {data.pdfUrl ? (
             <>
-              <Button href={data.pdfUrl} download variant="primary" class="flex-1 justify-center">
+              <Button href={data.pdfUrl} download variant="primary" size="lg" class="flex-1 justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                 Download PDF
               </Button>
-              <Button href={data.imageUrl} download variant="outline" class="flex-1 justify-center">
+              <Button href={data.imageUrl} download variant="outline" class="flex-1 justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                 Download PNG
               </Button>
             </>
           ) : (
-            <Button href={data.imageUrl} download variant="primary" class="flex-1 justify-center">
+            <Button href={data.imageUrl} download variant="primary" size="lg" class="flex-1 justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               Download PNG
             </Button>
           )}
@@ -193,9 +196,9 @@ const mainSchema =
         {data.tags.length > 0 && (
           <div>
             <p class="text-caption mb-2">Tags</p>
-            <div class="flex flex-wrap gap-1.5">
+            <div class="flex flex-wrap gap-2">
               {data.tags.map((tag) => (
-                <Badge variant="secondary" size="sm" class="capitalize">{tag}</Badge>
+                <Badge variant="secondary" size="sm" class="capitalize px-3 py-1">{tag}</Badge>
               ))}
             </div>
           </div>

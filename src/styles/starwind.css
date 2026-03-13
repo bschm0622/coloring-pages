@@ -109,6 +109,9 @@
   --outline: #2C68C4;
   --radius: 0.75rem;
 
+  /* font tokens */
+  --font-heading: "Baloo 2", system-ui, sans-serif;
+
   /* layout tokens */
   --container-width: 72rem;       /* max-w-6xl equivalent */
   --container-prose-width: 48rem; /* max-w-3xl equivalent, for article content */
@@ -173,7 +176,7 @@
   }
   body {
     @apply bg-background text-foreground scheme-light dark:scheme-dark;
-    font-family: "Baloo 2", system-ui, sans-serif;
+    font-family: "DM Sans", system-ui, sans-serif;
   }
   button {
     @apply cursor-pointer;
@@ -184,18 +187,23 @@
   /* Heading scale — use these classes instead of raw text-* utilities */
   .heading-1 {
     @apply text-4xl font-bold text-foreground;
+    font-family: var(--font-heading);
   }
   .heading-2 {
     @apply text-3xl font-bold text-foreground;
+    font-family: var(--font-heading);
   }
   .heading-3 {
     @apply text-2xl font-semibold text-foreground;
+    font-family: var(--font-heading);
   }
   .heading-4 {
     @apply text-xl font-semibold text-foreground;
+    font-family: var(--font-heading);
   }
   .heading-5 {
     @apply text-lg font-medium text-foreground;
+    font-family: var(--font-heading);
   }
 
   /* Text roles */
