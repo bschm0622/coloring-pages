@@ -1,0 +1,147 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
+import Card from "@/components/starwind/card/Card.astro";
+import CardContent from "@/components/starwind/card/CardContent.astro";
+import Badge from "@/components/starwind/badge/Badge.astro";
+import Breadcrumb from "@/components/starwind/breadcrumb/Breadcrumb.astro";
+import BreadcrumbList from "@/components/starwind/breadcrumb/BreadcrumbList.astro";
+import BreadcrumbItem from "@/components/starwind/breadcrumb/BreadcrumbItem.astro";
+import BreadcrumbLink from "@/components/starwind/breadcrumb/BreadcrumbLink.astro";
+import BreadcrumbSeparator from "@/components/starwind/breadcrumb/BreadcrumbSeparator.astro";
+import BreadcrumbPage from "@/components/starwind/breadcrumb/BreadcrumbPage.astro";
+
+export async function getStaticPaths() {
+  const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+  const tagMap = new Map<string, typeof allPages>();
+
+  for (const page of allPages) {
+    for (const tag of page.data.tags) {
+      const normalized = tag.toLowerCase();
+      if (!tagMap.has(normalized)) tagMap.set(normalized, []);
+      tagMap.get(normalized)!.push(page);
+    }
+  }
+
+  return Array.from(tagMap.entries())
+    .filter(([, pages]) => pages.length >= 2)
+    .map(([tag, pages]) => ({
+      params: { tag: tag.replace(/\s+/g, "-") },
+      props: {
+        tag,
+        pages: pages.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+      },
+    }));
+}
+
+const { tag, pages } = Astro.props;
+const displayTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+const pageTitle = `${displayTag} Coloring Pages`;
+const description = `Free printable ${tag} coloring pages for kids. Browse ${pages.length} ${tag} coloring sheets — all free to download and print.`;
+
+const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
+  easy: "success",
+  medium: "warning",
+  hard: "error",
+};
+
+const pageUrl = `${siteConfig.url}/tags/${tag.replace(/\s+/g, "-")}`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: pageTitle,
+    description,
+    url: pageUrl,
+    isAccessibleForFree: true,
+    numberOfItems: pages.length,
+    hasPart: pages.map((p) => ({
+      "@type": "CreativeWork",
+      name: p.data.title,
+      url: `${siteConfig.url}/coloring-pages/${p.slug}`,
+      image: `${siteConfig.url}${p.data.imageUrl}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: pageTitle,
+    numberOfItems: pages.length,
+    itemListElement: pages.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.data.title,
+      url: `${siteConfig.url}/coloring-pages/${p.slug}`,
+      image: `${siteConfig.url}${p.data.imageUrl}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Coloring Pages", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: "Tags", item: `${siteConfig.url}/tags` },
+      { "@type": "ListItem", position: 3, name: pageTitle },
+    ],
+  },
+];
+---
+
+<Page title={pageTitle} description={description} jsonLd={jsonLd}>
+  <Breadcrumb class="mb-6">
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Coloring Pages</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/tags">Tags</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+
+  <div class="mb-8">
+    <h1 class="heading-2 mb-2">{pageTitle}</h1>
+    <p class="text-lead">
+      {pages.length} free printable {tag} coloring pages for kids of all ages. Every page has clear outlines that print well on a standard home printer. Just pick one, download, and print — no sign-up needed.
+    </p>
+  </div>
+
+  <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
+    {
+      pages.map((page) => (
+        <li class="flex">
+          <a href={`/coloring-pages/${page.slug}`} class="group flex h-full w-full flex-col">
+            <Card class="flex h-full flex-col overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+              <img
+                src={page.data.imageUrl}
+                alt={page.data.title}
+                class="h-48 w-full object-contain bg-muted p-3 transition-transform group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <CardContent class="flex flex-1 flex-col gap-2">
+                <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
+                  {page.data.title}
+                </p>
+                <Badge
+                  variant={difficultyVariant[page.data.difficulty]}
+                  size="sm"
+                  class="capitalize self-start"
+                >
+                  {page.data.difficulty}
+                </Badge>
+              </CardContent>
+            </Card>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Page>

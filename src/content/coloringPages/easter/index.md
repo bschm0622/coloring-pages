@@ -9,6 +9,6 @@ tags: ["easter", "holiday", "spring", "bunny", "eggs"]
 draft: false
 ---
 
-Easter coloring pages are a classic activity — easy to print, takes a few minutes to set up, and keeps kids busy while the egg hunt is being arranged. These pages cover the two most-requested Easter subjects: the Easter Bunny and Easter eggs. Both are designed with simple enough shapes that young kids can color them without help.
+Easter coloring pages are a classic activity — easy to print, takes a few minutes to set up, and keeps kids busy while the egg hunt is being arranged. You'll find Easter bunnies, decorated eggs, and more — all designed with simple enough shapes that young kids can color them without help.
 
-All free to download and print below.
+All free to download and print.

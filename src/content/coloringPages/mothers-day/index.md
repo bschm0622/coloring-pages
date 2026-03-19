@@ -9,6 +9,6 @@ tags: ["mothers day", "holiday", "gift", "spring", "kids"]
 draft: false
 ---
 
-A handcolored page makes a sweet and personal Mother's Day gift. These coloring pages are designed to be easy enough for young kids to finish on their own, so the result feels like theirs — not a craft kit. Print one (or all three) and let kids pick their favorite.
+A handcolored page makes a sweet and personal Mother's Day gift. These coloring pages are designed to be easy enough for young kids to finish on their own, so the result feels like theirs — not a craft kit. Browse the collection below and let kids pick their favorite.
 
-Pick one below and download for free.
+All free to download and print.

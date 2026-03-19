@@ -90,6 +90,12 @@ const faqSchema = {
   ],
 };
 
+const educationalLevel: Record<string, string> = {
+  easy: "Preschool",
+  medium: "Elementary School",
+  hard: "Middle School and Up",
+};
+
 const mainSchema =
   variants.length > 0
     ? {
@@ -100,13 +106,20 @@ const mainSchema =
         url: pageUrl,
         image: imageUrl,
         isAccessibleForFree: true,
+        numberOfItems: variants.length,
         hasPart: variants.map((v) => {
           const [t, slug] = v.slug.split("/");
           return {
             "@type": "CreativeWork",
             name: v.data.title,
             url: `${siteConfig.url}/coloring-pages/${t}/${slug}`,
-            image: `${siteConfig.url}${v.data.imageUrl}`,
+            image: {
+              "@type": "ImageObject",
+              url: `${siteConfig.url}${v.data.imageUrl}`,
+              contentUrl: `${siteConfig.url}${v.data.imageUrl}`,
+              encodingFormat: "image/png",
+              name: v.data.title,
+            },
           };
         }),
       }
@@ -116,10 +129,26 @@ const mainSchema =
         name: data.title,
         description: data.description,
         url: pageUrl,
-        image: { "@type": "ImageObject", url: imageUrl, encodingFormat: "image/png" },
+        image: {
+          "@type": "ImageObject",
+          url: imageUrl,
+          contentUrl: imageUrl,
+          encodingFormat: "image/png",
+          name: data.title,
+          description: `Free printable coloring page: ${data.title}`,
+          representativeOfPage: true,
+          license: `${siteConfig.url}/about`,
+          acquireLicensePage: `${siteConfig.url}/about`,
+        },
         isAccessibleForFree: true,
         keywords: data.tags.join(", "),
-        audience: { "@type": "Audience", audienceType: "children" },
+        learningResourceType: "coloring page",
+        educationalLevel: educationalLevel[data.difficulty],
+        audience: {
+          "@type": "EducationalAudience",
+          educationalRole: "student",
+          audienceType: "children",
+        },
         datePublished: data.pubDate.toISOString(),
       };
 ---

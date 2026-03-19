@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
+import Card from "@/components/starwind/card/Card.astro";
+import CardHeader from "@/components/starwind/card/CardHeader.astro";
+import CardTitle from "@/components/starwind/card/CardTitle.astro";
+import CardDescription from "@/components/starwind/card/CardDescription.astro";
+
+const allCollections = await getCollection("collections", ({ data }) => !data.draft);
+const sorted = allCollections.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const pageTitle = "Coloring Page Collections";
+const description = "Curated collections of free printable coloring pages — organized by theme, season, and age group.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: pageTitle,
+  description,
+  url: `${siteConfig.url}/collections`,
+  isAccessibleForFree: true,
+};
+---
+
+<Page title={pageTitle} description={description} jsonLd={jsonLd}>
+  <div class="mb-8">
+    <h1 class="heading-2 mb-2">{pageTitle}</h1>
+    <p class="text-lead">
+      Themed collections of free coloring pages — curated by subject, season, and age. Each collection is free to download and print.
+    </p>
+  </div>
+
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
+    {
+      sorted.map((collection) => (
+        <li>
+          <a href={`/collections/${collection.slug}`} class="group block">
+            <Card class="transition-shadow group-hover:shadow-md h-full">
+              <CardHeader>
+                <CardTitle class="group-hover:text-primary transition-colors">
+                  {collection.data.title}
+                </CardTitle>
+                <CardDescription>{collection.data.description}</CardDescription>
+              </CardHeader>
+            </Card>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Page>

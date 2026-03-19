@@ -16,6 +16,11 @@ const hubs = allPages
   .filter((p) => !p.slug.includes("/"))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
+const allCollections = await getCollection("collections", ({ data }) => !data.draft);
+const footerCollections = allCollections
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 6);
+
 interface Props {
   title: string;
   description: string;
@@ -125,6 +130,11 @@ const currentPath = Astro.url.pathname;
                 </a>
               ))}
               <div class="my-3 border-t border-border" />
+              <p class="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">By Difficulty</p>
+              <a href="/coloring-pages/difficulty/easy" class="block px-3 py-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors">Easy (Ages 2–5)</a>
+              <a href="/coloring-pages/difficulty/medium" class="block px-3 py-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors">Medium (Ages 5–10)</a>
+              <a href="/coloring-pages/difficulty/hard" class="block px-3 py-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors">Hard (Ages 10+)</a>
+              <div class="my-3 border-t border-border" />
               {siteConfig.nav.map((item) => (
                 <a
                   href={item.href}
@@ -136,6 +146,7 @@ const currentPath = Astro.url.pathname;
                   {item.label}
                 </a>
               ))}
+              <a href="/tags" class="block px-3 py-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors">Browse by Tag</a>
             </nav>
           </SheetContent>
         </Sheet>
@@ -151,7 +162,7 @@ const currentPath = Astro.url.pathname;
 
   <footer class="bg-muted mt-(--section-gap)">
     <Container class="py-10">
-      <div class="grid gap-8 sm:grid-cols-[2fr_1fr_1fr]">
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
         <!-- Brand + signup -->
         <div>
           <a href="/" class="hover:opacity-80 transition-opacity inline-block">
@@ -188,7 +199,7 @@ const currentPath = Astro.url.pathname;
           </div>
         </div>
 
-        <!-- Categories -->
+        <!-- Browse by Subject -->
         <div>
           <p class="text-sm font-medium text-foreground mb-3">Browse by Subject</p>
           <ul class="columns-2 gap-x-4 space-y-2">
@@ -207,10 +218,57 @@ const currentPath = Astro.url.pathname;
           </ul>
         </div>
 
+        <!-- Browse by Difficulty + Collections -->
+        <div>
+          <p class="text-sm font-medium text-foreground mb-3">By Difficulty</p>
+          <ul class="space-y-2">
+            <li>
+              <a href="/coloring-pages/difficulty/easy" class="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                Easy (Ages 2–5)
+              </a>
+            </li>
+            <li>
+              <a href="/coloring-pages/difficulty/medium" class="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                Medium (Ages 5–10)
+              </a>
+            </li>
+            <li>
+              <a href="/coloring-pages/difficulty/hard" class="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                Hard (Ages 10+)
+              </a>
+            </li>
+          </ul>
+
+          {footerCollections.length > 0 && (
+            <>
+              <p class="text-sm font-medium text-foreground mb-3 mt-6">Collections</p>
+              <ul class="space-y-2">
+                {footerCollections.map((c) => (
+                  <li>
+                    <a href={`/collections/${c.slug}`} class="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                      {c.data.title.replace(" Coloring Pages", "").replace(" for Kids", "")}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a href="/collections" class="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                    All collections →
+                  </a>
+                </li>
+              </ul>
+            </>
+          )}
+        </div>
+
         <!-- Links -->
         <div>
           <p class="text-sm font-medium text-foreground mb-3">More</p>
           <ul class="space-y-2">
+            <li>
+              <a href="/tags" class="text-sm text-foreground/70 hover:text-foreground transition-colors">
+                Browse by Tag
+              </a>
+            </li>
             {
               siteConfig.nav.map((item) => (
                 <li>

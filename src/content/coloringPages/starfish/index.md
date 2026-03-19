@@ -9,6 +9,6 @@ tags: ["starfish", "ocean", "sea", "underwater", "beach", "animals"]
 draft: false
 ---
 
-Starfish are a natural fit for ocean-themed coloring sessions. These two pages give you a cute cartoon version for younger kids and a more realistic design for older kids or anyone who wants a little more detail to work with.
+Starfish are a natural fit for ocean-themed coloring sessions. You'll find cute cartoon versions for younger kids and more realistic designs for older kids or anyone who wants a little more detail to work with.
 
-Both are free to download and print.
+All free to download and print.

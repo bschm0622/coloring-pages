@@ -1,0 +1,167 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
+import Card from "@/components/starwind/card/Card.astro";
+import CardContent from "@/components/starwind/card/CardContent.astro";
+import Badge from "@/components/starwind/badge/Badge.astro";
+import Breadcrumb from "@/components/starwind/breadcrumb/Breadcrumb.astro";
+import BreadcrumbList from "@/components/starwind/breadcrumb/BreadcrumbList.astro";
+import BreadcrumbItem from "@/components/starwind/breadcrumb/BreadcrumbItem.astro";
+import BreadcrumbLink from "@/components/starwind/breadcrumb/BreadcrumbLink.astro";
+import BreadcrumbSeparator from "@/components/starwind/breadcrumb/BreadcrumbSeparator.astro";
+import BreadcrumbPage from "@/components/starwind/breadcrumb/BreadcrumbPage.astro";
+
+const levelMeta: Record<string, { title: string; description: string; ageRange: string; educationalLevel: string }> = {
+  easy: {
+    title: "Easy Coloring Pages",
+    description: "Simple coloring pages with big, bold outlines perfect for toddlers and preschoolers. Large shapes and minimal detail make these ideal for young kids just learning to color.",
+    ageRange: "Ages 2–5",
+    educationalLevel: "Preschool",
+  },
+  medium: {
+    title: "Medium Coloring Pages",
+    description: "Coloring pages with moderate detail for elementary-age kids. Enough complexity to be interesting, but not so much that it gets frustrating.",
+    ageRange: "Ages 5–10",
+    educationalLevel: "Elementary School",
+  },
+  hard: {
+    title: "Hard Coloring Pages",
+    description: "Detailed coloring pages for older kids, teens, and adults. Intricate patterns and fine lines that reward patience and make for a relaxing activity.",
+    ageRange: "Ages 10+",
+    educationalLevel: "Middle School and Up",
+  },
+};
+
+export async function getStaticPaths() {
+  return ["easy", "medium", "hard"].map((level) => ({
+    params: { level },
+  }));
+}
+
+const { level } = Astro.params;
+const meta = levelMeta[level];
+
+const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+const pages = allPages
+  .filter((p) => p.data.difficulty === level)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
+  easy: "success",
+  medium: "warning",
+  hard: "error",
+};
+
+const pageUrl = `${siteConfig.url}/coloring-pages/difficulty/${level}`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: meta.title,
+    description: meta.description,
+    url: pageUrl,
+    isAccessibleForFree: true,
+    audience: {
+      "@type": "EducationalAudience",
+      educationalRole: "student",
+      audienceType: meta.ageRange,
+    },
+    numberOfItems: pages.length,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: meta.title,
+    numberOfItems: pages.length,
+    itemListElement: pages.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.data.title,
+      url: `${siteConfig.url}/coloring-pages/${p.slug}`,
+      image: `${siteConfig.url}${p.data.imageUrl}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Coloring Pages", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: meta.title },
+    ],
+  },
+];
+---
+
+<Page title={meta.title} description={meta.description} jsonLd={jsonLd}>
+  <Breadcrumb class="mb-6">
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Coloring Pages</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>{meta.title}</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+
+  <div class="mb-8">
+    <h1 class="heading-2 mb-2">{meta.title}</h1>
+    <p class="text-lead">{meta.description}</p>
+    <div class="mt-3 flex items-center gap-3">
+      <Badge variant={difficultyVariant[level]} class="capitalize px-3 py-1">{level}</Badge>
+      <span class="text-caption">{meta.ageRange} · {pages.length} pages</span>
+    </div>
+  </div>
+
+  <!-- Other difficulty levels -->
+  <div class="mb-8 flex gap-3">
+    {Object.entries(levelMeta).map(([key, val]) => (
+      <a
+        href={`/coloring-pages/difficulty/${key}`}
+        class:list={[
+          "text-sm px-4 py-2 rounded-full border transition-colors",
+          key === level
+            ? "bg-primary text-primary-foreground border-primary"
+            : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30",
+        ]}
+      >
+        {val.title.replace(" Coloring Pages", "")}
+      </a>
+    ))}
+  </div>
+
+  <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
+    {
+      pages.map((page) => (
+        <li class="flex">
+          <a href={`/coloring-pages/${page.slug}`} class="group flex h-full w-full flex-col">
+            <Card class="flex h-full flex-col overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+              <img
+                src={page.data.imageUrl}
+                alt={page.data.title}
+                class="h-48 w-full object-contain bg-muted p-3 transition-transform group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <CardContent class="flex flex-1 flex-col gap-2">
+                <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
+                  {page.data.title}
+                </p>
+                <Badge
+                  variant={difficultyVariant[page.data.difficulty]}
+                  size="sm"
+                  class="capitalize self-start"
+                >
+                  {page.data.difficulty}
+                </Badge>
+              </CardContent>
+            </Card>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Page>

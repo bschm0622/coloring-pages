@@ -1,0 +1,152 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
+import Card from "@/components/starwind/card/Card.astro";
+import CardContent from "@/components/starwind/card/CardContent.astro";
+import Badge from "@/components/starwind/badge/Badge.astro";
+import Breadcrumb from "@/components/starwind/breadcrumb/Breadcrumb.astro";
+import BreadcrumbList from "@/components/starwind/breadcrumb/BreadcrumbList.astro";
+import BreadcrumbItem from "@/components/starwind/breadcrumb/BreadcrumbItem.astro";
+import BreadcrumbLink from "@/components/starwind/breadcrumb/BreadcrumbLink.astro";
+import BreadcrumbSeparator from "@/components/starwind/breadcrumb/BreadcrumbSeparator.astro";
+import BreadcrumbPage from "@/components/starwind/breadcrumb/BreadcrumbPage.astro";
+import Prose from "@/components/starwind/prose/Prose.astro";
+
+export async function getStaticPaths() {
+  const allCollections = await getCollection("collections", ({ data }) => !data.draft);
+  const allColoringPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+
+  return await Promise.all(
+    allCollections.map(async (collection) => {
+      const { filterTags, filterDifficulty, manualSlugs } = collection.data;
+
+      let matchingPages = allColoringPages.filter((p) => {
+        if (manualSlugs.length > 0 && manualSlugs.includes(p.slug)) return true;
+        if (filterTags.length > 0 && p.data.tags.some((t) => filterTags.includes(t.toLowerCase()))) return true;
+        if (filterDifficulty && p.data.difficulty === filterDifficulty) return true;
+        return false;
+      });
+
+      matchingPages.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+      const { Content } = await collection.render();
+
+      return {
+        params: { slug: collection.slug },
+        props: { collection, pages: matchingPages, Content },
+      };
+    })
+  );
+}
+
+const { collection, pages, Content } = Astro.props;
+const { data } = collection;
+
+const difficultyVariant: Record<string, "success" | "warning" | "error"> = {
+  easy: "success",
+  medium: "warning",
+  hard: "error",
+};
+
+const pageUrl = `${siteConfig.url}/collections/${collection.slug}`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: data.title,
+    description: data.description,
+    url: pageUrl,
+    isAccessibleForFree: true,
+    datePublished: data.pubDate.toISOString(),
+    numberOfItems: pages.length,
+    hasPart: pages.map((p) => ({
+      "@type": "CreativeWork",
+      name: p.data.title,
+      url: `${siteConfig.url}/coloring-pages/${p.slug}`,
+      image: `${siteConfig.url}${p.data.imageUrl}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: data.title,
+    numberOfItems: pages.length,
+    itemListElement: pages.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.data.title,
+      url: `${siteConfig.url}/coloring-pages/${p.slug}`,
+      image: `${siteConfig.url}${p.data.imageUrl}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Coloring Pages", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: "Collections", item: `${siteConfig.url}/collections` },
+      { "@type": "ListItem", position: 3, name: data.title },
+    ],
+  },
+];
+---
+
+<Page title={data.title} description={data.description} ogImage={data.ogImage} jsonLd={jsonLd}>
+  <Breadcrumb class="mb-6">
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Coloring Pages</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/collections">Collections</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>{data.title}</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+
+  <div class="mb-10">
+    <h1 class="heading-2 mb-2">{data.title}</h1>
+    <p class="text-caption">{pages.length} coloring pages in this collection</p>
+    <Prose class="mt-4 max-w-none">
+      <Content />
+    </Prose>
+  </div>
+
+  <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
+    {
+      pages.map((page) => (
+        <li class="flex">
+          <a href={`/coloring-pages/${page.slug}`} class="group flex h-full w-full flex-col">
+            <Card class="flex h-full flex-col overflow-hidden transition-shadow group-hover:shadow-md" size="sm">
+              <img
+                src={page.data.imageUrl}
+                alt={page.data.title}
+                class="h-48 w-full object-contain bg-muted p-3 transition-transform group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <CardContent class="flex flex-1 flex-col gap-2">
+                <p class="text-sm font-medium text-card-foreground line-clamp-2 leading-snug">
+                  {page.data.title}
+                </p>
+                <Badge
+                  variant={difficultyVariant[page.data.difficulty]}
+                  size="sm"
+                  class="capitalize self-start"
+                >
+                  {page.data.difficulty}
+                </Badge>
+              </CardContent>
+            </Card>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Page>

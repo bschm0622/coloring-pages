@@ -1,0 +1,61 @@
+---
+import { getCollection } from "astro:content";
+import Page from "@/layouts/Page.astro";
+import { siteConfig } from "@/config/site";
+import Badge from "@/components/starwind/badge/Badge.astro";
+
+const allPages = await getCollection("coloringPages", ({ data }) => !data.draft);
+const tagMap = new Map<string, number>();
+
+for (const page of allPages) {
+  for (const tag of page.data.tags) {
+    const normalized = tag.toLowerCase();
+    tagMap.set(normalized, (tagMap.get(normalized) ?? 0) + 1);
+  }
+}
+
+const tags = Array.from(tagMap.entries())
+  .filter(([, count]) => count >= 2)
+  .sort((a, b) => b[1] - a[1]);
+
+const pageTitle = "Browse by Tag";
+const description = "Browse all coloring page tags. Find free printable coloring pages by subject — animals, holidays, fantasy, nature, and more.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: pageTitle,
+  description,
+  url: `${siteConfig.url}/tags`,
+  isAccessibleForFree: true,
+};
+---
+
+<Page title={pageTitle} description={description} jsonLd={jsonLd}>
+  <div class="mb-8">
+    <h1 class="heading-2 mb-2">{pageTitle}</h1>
+    <p class="text-lead">
+      Find coloring pages by subject. Pick a tag to see all matching pages — every one is free to download and print.
+    </p>
+  </div>
+
+  <div class="flex flex-wrap gap-3">
+    {
+      tags.map(([tag, count]) => (
+        <a
+          href={`/tags/${tag.replace(/\s+/g, "-")}`}
+          class="group"
+        >
+          <Badge
+            variant="secondary"
+            size="lg"
+            class="px-4 py-2 text-base capitalize transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
+          >
+            {tag}
+            <span class="ml-1.5 text-xs opacity-60">({count})</span>
+          </Badge>
+        </a>
+      ))
+    }
+  </div>
+</Page>

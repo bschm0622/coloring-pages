@@ -47,7 +47,7 @@ const faqs = [
   },
   {
     q: "How do I print a coloring page?",
-    a: "Click the Download PNG button on any page, open the file, and print. All pages are formatted for standard 8.5 × 11 inch paper and print clearly on any home printer.",
+    a: "Click the Download PDF or Download PNG button on any page, open the file, and print. All pages are formatted for standard 8.5 × 11 inch paper and print clearly on any home printer.",
   },
   {
     q: "Can I use these in my classroom?",
@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: "What file format are the coloring pages?",
-    a: "All coloring pages are PNG files. PNG works with every printer and every device, and the files are high enough resolution to print cleanly on standard paper.",
+    a: "Coloring pages are available as both PDF and PNG files. PDFs are ideal for printing — they're sharp at any size and easy to open on any device. PNGs are also available if you prefer an image file.",
   },
   {
     q: "Can I share these coloring pages?",
@@ -84,9 +84,23 @@ const faqSchema = {
     acceptedAnswer: { "@type": "Answer", text: a },
   })),
 };
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Free Coloring Pages",
+  numberOfItems: gridPages.length,
+  itemListElement: gridPages.slice(0, 50).map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: p.data.title,
+    url: `${siteConfig.url}/coloring-pages/${p.slug}`,
+    image: `${siteConfig.url}${p.data.imageUrl}`,
+  })),
+};
 ---
 
-<Page title="Free Coloring Pages to Print" description={siteConfig.description} jsonLd={faqSchema}>
+<Page title="Free Coloring Pages to Print" description={siteConfig.description} jsonLd={[faqSchema, itemListSchema]}>
 
   <!-- Hero -->
   <section class="mb-10 -mt-(--page-padding-y) pt-10 pb-10 bg-linear-to-b from-accent/30 to-transparent border-b border-border/30" style="margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); padding-left: calc(50vw - 50%); padding-right: calc(50vw - 50%)">

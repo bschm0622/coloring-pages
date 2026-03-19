@@ -27,4 +27,18 @@ const coloringPages = defineCollection({
   }),
 });
 
-export const collections = { blog, coloringPages };
+const collections_def = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string().max(160),
+    pubDate: z.date(),
+    ogImage: z.string().optional(),
+    filterTags: z.array(z.string()).default([]),
+    filterDifficulty: z.enum(["easy", "medium", "hard"]).optional(),
+    manualSlugs: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, coloringPages, collections: collections_def };

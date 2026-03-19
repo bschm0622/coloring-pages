@@ -9,6 +9,6 @@ tags: ["clown", "circus", "funny", "kids", "cartoon"]
 draft: false
 ---
 
-Clown coloring pages are made for bold colors — the more the better. These two pages give you a friendly clown face and a clown on a bicycle, both with clear outlines that work great with markers or crayons.
+Clown coloring pages are made for bold colors — the more the better. You'll find friendly clown faces, clowns on bicycles, and more, all with clear outlines that work great with markers or crayons.
 
-Both are free to download and print.
+All free to download and print.

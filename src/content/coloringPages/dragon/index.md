@@ -9,6 +9,6 @@ tags: ["dragon", "fantasy", "cute", "fire", "magic"]
 draft: false
 ---
 
-Dragons work for a wide age range — younger kids love the cute, round versions, while older kids and adults often prefer something with more scale detail and a fiercer look. These pages offer both. Either way, the best part about coloring a dragon is that there's no reference to stay true to. Go green and scaly, or fire-red, or iridescent blue — it's your dragon.
+Dragons work for a wide age range — younger kids love the cute, round versions, while older kids and adults often prefer something with more scale detail and a fiercer look. The best part about coloring a dragon is that there's no reference to stay true to. Go green and scaly, or fire-red, or iridescent blue — it's your dragon.
 
-Both versions are free to download and print.
+All free to download and print.
