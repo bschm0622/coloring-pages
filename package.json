@@ -6,7 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "new-page": "node scripts/new-page.mjs",
+    "new-collection": "node scripts/new-collection.mjs",
+    "pdfs": "node scripts/generate-pdfs.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",

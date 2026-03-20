@@ -1,127 +1,157 @@
 # Adding Content
 
-## The one rule about images
+## Add a coloring page
 
-The `imageUrl` in your frontmatter must exactly match the filename in `public/coloring-pages/`.
+**When:** You have a new coloring page PNG to add to the site.
 
-If you upload `puppy-cute.png`, write `imageUrl: "/coloring-pages/puppy-cute.png"`.
-If there's a mismatch, the image is broken (but the page still builds).
+**Steps:**
+
+1. Drop your PNG in `public/coloring-pages/` (name it like `cat-bow.png`)
+2. Run `npm run new-page`
+
+**The script asks you:**
+
+```
+Subject (e.g. cat, puppy, easter):       → type the subject name
+Title:                                    → "Cat with Bow Coloring Page"
+Image filename (e.g. cat-bow.png):        → the file you just dropped in
+Description (under 160 chars):            → "Free printable cat coloring page..."
+```
+
+Then it asks for difficulty, tags, and a one-line body text:
+
+```
+Difficulty (easy/medium/hard) [easy]:     → pick one, or Enter for default
+Tags (comma-separated) [cat, animals]:    → type new tags, or Enter for default
+One-line body text:                       → short description, or Enter to skip
+```
+
+For existing subjects, the hub's difficulty and tags are shown as defaults — just hit Enter to keep them, or type new values if this variant is different (e.g. a winter cat vs. a summer cat).
+
+Then it generates PDFs. Done.
+
+**Shortcut:** `npm run new-page -- cat "Cat with Bow"` skips the subject/title prompts.
 
 ---
 
-## Every subject is a folder
+## Add a collection
 
-All coloring pages live in a folder named after the subject. Every folder has an `index.md` (the hub page) and optionally one or more variant `.md` files.
+**When:** You want a themed landing page that groups existing coloring pages together (e.g. "Spring Coloring Pages", "Easy Coloring Pages for Toddlers"). Good for SEO — each collection targets a search query.
+
+**Steps:**
+
+1. Run `npm run new-collection`
+
+**The script asks you:**
+
+```
+Title:                                    → "Spring Coloring Pages"
+Description (under 160 chars):            → "Free printable spring coloring pages..."
+Filter by tags (comma-separated):         → spring (or Enter to skip)
+Filter by difficulty (easy/medium/hard):   → Enter to skip, or pick one
+Intro paragraph:                          → short paragraph about the collection
+```
+
+It shows your existing tags so you can pick from them. The collection automatically pulls in every coloring page matching your filters. It appears in the nav and footer right away.
+
+---
+
+## Other commands
+
+| Command | When to use it |
+|---|---|
+| `npm run pdfs` | After editing a coloring page manually (the new-page script runs this for you) |
+| `npm run dev` | Preview the site locally before deploying |
+| `npm run build` | Production build |
+
+---
+
+## How the site is organized
 
 ```
 src/content/coloringPages/
   puppy/
-    index.md        → /coloring-pages/puppy        (hub — shows gallery or single image)
-    cute.md         → /coloring-pages/puppy/cute   (variant detail page)
+    index.md        → /coloring-pages/puppy        (hub — shows gallery)
+    cute.md         → /coloring-pages/puppy/cute   (single page)
     playful.md      → /coloring-pages/puppy/playful
   duck/
-    index.md        → /coloring-pages/duck          (hub — shows image directly, no variants)
+    index.md        → /coloring-pages/duck          (solo — no variants)
+
+src/content/collections/
+  spring-coloring-pages.md    → /collections/spring-coloring-pages
+  animal-coloring-pages.md    → /collections/animal-coloring-pages
 ```
 
-**Hub with variants** → the hub page shows a gallery grid of all variants.
-**Hub with no variants** → the hub page shows the image directly (download button included).
+Everything below is automatic — you don't create or manage these pages, they build themselves from your content:
+
+### Packs (`/packs`)
+
+A pack is just a hub that has 2+ variants. The `/packs` page lists every hub that has multiple coloring pages, with a "Download PDF Pack" button for each. When you add variants to a subject, it automatically becomes a pack. When you run `npm run pdfs` (or `npm run new-page`), the pack PDF gets regenerated with all the variants included.
+
+**You don't need to do anything** — just keep adding variants to subjects and the packs page updates itself.
+
+### Tags (`/tags` and `/tags/[tag]`)
+
+Every tag used on 2+ coloring pages gets its own page (e.g. `/tags/animals` shows all pages tagged "animals"). The `/tags` index shows all tags with counts.
+
+**How to influence what shows up:** Pick tags carefully when adding pages. Reuse existing tags (the `new-page` script shows them). Good tags are:
+- The subject itself: `cat`, `puppy`, `unicorn`
+- A broad category: `animals`, `fantasy`, `holiday`
+- Useful descriptors: `cute`, `spring`, `pets`
+
+Check `/tags` on the live site to see what already exists before inventing new ones.
+
+### Difficulty pages (`/coloring-pages/difficulty/easy`, `/medium`, `/hard`)
+
+Every coloring page's `difficulty` field groups it onto these pages automatically. They're labeled with age ranges (Easy = Ages 2–5, Medium = Ages 5–10, Hard = Ages 10+).
+
+**How to influence what shows up:** Set the `difficulty` field accurately when adding pages.
+
+### Nav and footer
+
+All automatic:
+- New subjects appear in the "Coloring Pages" dropdown in the nav
+- Difficulty links are in the mobile nav and footer
+- Collections appear in the footer (up to 6, most recent first)
+- Tags link is in the footer under "More"
 
 ---
 
-## Adding a new subject
+## Writing guide
 
-### Step 1 — Drop your image(s) in `public/coloring-pages/`
+**Voice:** Casual, parent-to-parent. "Kids love them" not "Children will enjoy these." No hype words (amazing, wonderful, stunning).
 
-Name them descriptively: `cat-cute.png`, `cat-realistic.png`.
+**Titles:**
+- Hub: "Cat Coloring Pages" (plural)
+- Variant: "Cat with Bow Coloring Page" (singular)
+- Collection: "Spring Coloring Pages" or "Easy Coloring Pages for Toddlers"
 
-### Step 2 — Create `src/content/coloringPages/cat/index.md`
+**Descriptions:** Under 160 chars. Always start with "Free printable".
 
-This is the hub page at `/coloring-pages/cat`.
+**Body text:**
+- Hub: 1–2 paragraphs — why kids like this subject, what's included, it's free
+- Variant: 1 paragraph — describe this specific image
+- Collection: 1–2 paragraphs — what the theme is, who it's for
 
-```md
----
-title: "Cat Coloring Pages"
-description: "Free printable cat coloring pages for kids. Cute and realistic designs."
-pubDate: 2026-03-05
-difficulty: "easy"
-imageUrl: "/coloring-pages/cat-cute.png"
-tags: ["cat", "animals", "cute"]
-draft: false
----
-
-Write an intro paragraph here about these cat coloring pages.
-```
-
-### Step 3 (optional) — Create variant files
-
-If you have more than one image, add a file per variant: `cat/cute.md`, `cat/realistic.md`, etc.
-
-```md
----
-title: "Cute Cat Coloring Page"
-description: "A cute cat coloring page with big eyes and simple shapes. Great for kids."
-pubDate: 2026-03-05
-difficulty: "easy"
-imageUrl: "/coloring-pages/cat-cute.png"
-tags: ["cat", "animals", "cute"]
-draft: false
----
-
-Write a short paragraph about this specific variant here.
-```
-
-That's it. The hub appears in the site nav automatically. Variants appear in the hub gallery.
-
-### Step 4 — Generate PDFs
-
-After adding any new content, run:
-
-```
-node scripts/generate-pdfs.mjs
-```
-
-This creates a single-page PDF for every coloring page and a multi-page pack PDF for every hub that has variants. It also updates `pdfUrl` in every frontmatter file automatically and deletes any orphaned PDFs left over from removed content.
-
-You never need to set `pdfUrl` by hand.
-
----
-
-## Adding a variant to an existing subject
-
-If you already have `puppy/` and add a new image `puppy-baby.png`:
-
-1. Drop `puppy-baby.png` in `public/coloring-pages/`
-2. Create `src/content/coloringPages/puppy/baby.md`
-3. Run `node scripts/generate-pdfs.mjs`
-4. Done — it appears at `/coloring-pages/puppy/baby`, in the puppy hub gallery, and in the updated pack PDF
-
----
-
-## Frontmatter reference
-
-| Field | Required | Notes |
-|---|---|---|
-| `title` | Yes | Shows in search results and page heading |
-| `description` | Yes | Under 160 characters. Used for SEO. |
-| `pubDate` | Yes | `YYYY-MM-DD` format |
-| `difficulty` | Yes | `easy`, `medium`, or `hard` |
-| `imageUrl` | Yes | Path to image: `/coloring-pages/filename.png` |
-| `tags` | Yes | Array of keywords: `["cat", "animals", "cute"]` |
-| `draft` | Yes | `false` to publish, `true` to hide |
-| `pdfUrl` | No | Set automatically by `generate-pdfs.mjs` — do not set by hand |
+**Tags:** Reuse existing ones (the script shows them). Include the subject (`cat`), a category (`animals`), and descriptors (`cute`, `spring`).
 
 ---
 
 ## Common mistakes
 
-**Image not showing:** Check that `imageUrl` exactly matches the filename in `public/coloring-pages/`. Case matters.
+| Problem | Fix |
+|---|---|
+| Image not showing | `imageUrl` must exactly match the filename. Case matters. |
+| Page not in grid | Check `draft: false` and file ends in `.md` |
+| Hub not working | Must be `subject/index.md` — not `subject.md` |
+| Duplicate ID warning | Don't name a variant the same as the folder. `palm-trees/palm-trees.md` breaks — use `palm-trees/single.md` |
 
-**Page not in grid:** Check `draft: false`. Check the file is saved with a `.md` extension.
+---
 
-**Hub not working:** The hub file must be named `index.md` inside the subject folder. Not `puppy.md`, not `puppies/index.md` — exactly `puppy/index.md`.
+## Editing pages by hand
 
-**Duplicate id warning / variant not showing up:** Never name a variant file the same as its parent folder. `palm-trees/palm-trees.md` collides with `palm-trees/index.md` — both resolve to the id `palm-trees`. Name variants after the image variation instead: `palm-trees/tropical-scene.md`, `palm-trees/single.md`, etc.
+If you ever want to skip the scripts and edit markdown directly, the frontmatter fields are:
 
-**Wrong URL:** The URL comes from the filename. `puppy/baby.md` → `/coloring-pages/puppy/baby`. Rename the file to change the URL.
+**Coloring pages** — `title`, `description`, `pubDate` (YYYY-MM-DD), `difficulty` (easy/medium/hard), `imageUrl`, `tags`, `draft` (false to publish). Run `npm run pdfs` after.
 
-**New subject not in nav:** Hub pages appear in the nav automatically. No config changes needed.
+**Collections** — `title`, `description`, `pubDate`, `filterTags` (array), `filterDifficulty` (optional), `manualSlugs` (optional array of specific page slugs), `draft`.
